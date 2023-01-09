@@ -1,0 +1,22 @@
+{
+  "name": "researchproject",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:front": "npm start -w frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DhondtTiemen/ResearchProject.git"
+  },
+  "keywords": [],
+  "author": "TD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DhondtTiemen/ResearchProject/issues"
+  },
+  "homepage": "https://github.com/DhondtTiemen/ResearchProject#readme",
+  "workspaces": [
+    "frontend"
+  ]
+}
