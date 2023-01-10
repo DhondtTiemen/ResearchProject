@@ -13,29 +13,31 @@ export class ArtistResolver {
   @Mutation(() => Artist)
   createArtist(
     @Args('createArtistInput') createArtistInput: CreateArtistInput,
-  ) {
+  ): Promise<Artist> {
     return this.artistService.create(createArtistInput)
   }
 
   @Query(() => [Artist], { name: 'artists' })
-  findAll() {
+  findAll(): Promise<Artist[]> {
     return this.artistService.findAll()
   }
 
   @Query(() => Artist, { name: 'artist' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.artistService.findOne(id)
+  findOne(
+    @Args('artistId', { type: () => Int }) artistId: number,
+  ): Promise<Artist> {
+    return this.artistService.findOne(artistId)
   }
 
   @Mutation(() => Artist)
   updateArtist(
     @Args('updateArtistInput') updateArtistInput: UpdateArtistInput,
-  ) {
-    return this.artistService.update(updateArtistInput.id, updateArtistInput)
+  ): Promise<Artist> {
+    return this.artistService.update(updateArtistInput)
   }
 
   @Mutation(() => Artist)
-  removeArtist(@Args('id') id: string) {
-    return this.artistService.remove(id)
+  removeArtist(@Args('artistId') artistId: number) {
+    return this.artistService.remove(artistId)
   }
 }

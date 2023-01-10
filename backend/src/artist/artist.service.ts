@@ -31,15 +31,23 @@ export class ArtistService {
     return this.artistRepository.find()
   }
 
-  findOne(artistId: number) {
+  findOne(artistId: number): Promise<Artist> {
     return this.artistRepository.findOneBy({ artistId })
   }
 
-  update(id: number, updateArtistInput: UpdateArtistInput) {
-    return `This action updates a #${id} artist`
+  update(updateArtistInput: UpdateArtistInput): Promise<Artist> {
+    const update = new Artist()
+    update.artistId = updateArtistInput.artistId
+    update.firstName = updateArtistInput.firstName
+    update.lastName = updateArtistInput.lastName
+    update.birthDate = updateArtistInput.birthDate
+    update.description = updateArtistInput.description
+    update.image = updateArtistInput.image
+
+    return this.artistRepository.save(update)
   }
 
-  async remove(artistId: string): Promise<void> {
+  async remove(artistId: number): Promise<void> {
     await this.artistRepository.delete(artistId)
   }
 }
