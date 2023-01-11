@@ -21,6 +21,20 @@ export class ArtistService {
     })
   }
 
+  findArtistByFirstName(firstName: string): Promise<Artist> {
+    return this.artistRepository.findOne({
+      where: { firstName: firstName },
+      relations: ['albums'],
+    })
+  }
+
+  findArtistByLastName(lastName: string): Promise<Artist> {
+    return this.artistRepository.findOne({
+      where: { lastName: lastName },
+      relations: ['albums'],
+    })
+  }
+
   findArtists(): Promise<Artist[]> {
     return this.artistRepository.find({ relations: ['albums'] })
   }

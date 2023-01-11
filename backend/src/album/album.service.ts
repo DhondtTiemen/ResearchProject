@@ -26,6 +26,13 @@ export class AlbumService {
     })
   }
 
+  findAlbumByTitle(title: string): Promise<Album> {
+    return this.albumRepository.findOne({
+      where: { title: title },
+      relations: ['tracks'],
+    })
+  }
+
   findAlbums(): Promise<Album[]> {
     return this.albumRepository.find({ relations: ['tracks'] })
   }
@@ -52,5 +59,9 @@ export class AlbumService {
       artist,
     })
     return this.albumRepository.save(updateAlbum)
+  }
+
+  async removeAlbumById(albumId: number): Promise<void> {
+    await this.albumRepository.delete(albumId)
   }
 }
