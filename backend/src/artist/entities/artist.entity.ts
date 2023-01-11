@@ -1,30 +1,26 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm'
-import { ObjectType, Field } from '@nestjs/graphql'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Album } from 'src/album/entities/album.entity'
 
-@Entity()
-@ObjectType({ description: 'artist' })
+@Entity({ name: 'artist' })
 export class Artist {
   @PrimaryGeneratedColumn()
-  @PrimaryColumn()
   artistId: number
 
-  @Field()
   @Column()
   firstName: string
 
-  @Field()
   @Column()
   lastName: string
 
-  @Field()
-  @Column()
-  birthDate: string
+  @Column({ nullable: true })
+  birthDate: Date
 
-  @Field()
-  @Column()
+  @Column({ nullable: true })
   description: string
 
-  @Field()
-  @Column()
+  @Column({ nullable: true })
   image: string
+
+  @OneToMany(() => Album, (album: Album) => album.artist)
+  albums: Album[]
 }

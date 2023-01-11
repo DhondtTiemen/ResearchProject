@@ -1,12 +1,11 @@
-import { Repository } from 'typeorm'
 import { Injectable } from '@nestjs/common'
+
+import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { Artist } from './entities/artist.entity'
-
-import { CreateArtistInput } from './dto/create-artist.input'
-import { UpdateArtistInput } from './dto/update-artist.input'
-import { Query } from '@nestjs/graphql'
+import { CreateArtistDto } from './dto/create-artist.dto'
+import { UpdateArtistDto } from './dto/update-artist.dto'
 
 @Injectable()
 export class ArtistService {
@@ -15,39 +14,41 @@ export class ArtistService {
     private readonly artistRepository: Repository<Artist>,
   ) {}
 
-  create(createArtistInput: CreateArtistInput): Promise<Artist> {
-    const a = new Artist()
-    a.firstName = createArtistInput.firstName
-    a.lastName = createArtistInput.lastName
-    a.birthDate = createArtistInput.birthDate
-    a.description = createArtistInput.description
-    a.image = createArtistInput.image
-
-    return this.artistRepository.save(a)
+  findArtistById(artistId: number): Promise<Artist> {
+    return this.artistRepository.findOne({
+      where: { artistId: artistId },
+      relations: ['albums'],
+    })
   }
 
-  @Query(() => [Artist], { name: 'artists' })
-  findAll(): Promise<Artist[]> {
-    return this.artistRepository.find()
+  findArtists(): Promise<Artist[]> {
+    return this.artistRepository.find({ relations: ['albums'] })
   }
 
-  findOne(artistId: number): Promise<Artist> {
-    return this.artistRepository.findOneBy({ artistId })
+  createArtist(createArtistInput: CreateArtistDto): Promise<Artist> {
+    const newArtist = new Artist()
+    newArtist.firstName = createArtistInput.firstName
+    newArtist.lastName = createArtistInput.lastName
+    // a.birthDate = createArtistInput.birthDate
+    // a.description = createArtistInput.description
+    // a.image = createArtistInput.image
+
+    return this.artistRepository.save(newArtist)
   }
 
-  update(updateArtistInput: UpdateArtistInput): Promise<Artist> {
+  updateArtist(updateArtistInput: UpdateArtistDto): Promise<Artist> {
     const update = new Artist()
     update.artistId = updateArtistInput.artistId
     update.firstName = updateArtistInput.firstName
     update.lastName = updateArtistInput.lastName
-    update.birthDate = updateArtistInput.birthDate
-    update.description = updateArtistInput.description
-    update.image = updateArtistInput.image
+    // update.birthDate = updateArtistInput.birthDate
+    // update.description = updateArtistInput.description
+    // update.image = updateArtistInput.image
 
     return this.artistRepository.save(update)
   }
 
-  async remove(artistId: number): Promise<void> {
+  async removeArtistById(artistId: number): Promise<void> {
     await this.artistRepository.delete(artistId)
   }
 }
