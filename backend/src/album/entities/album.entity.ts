@@ -34,6 +34,9 @@ export class Album {
   @Column()
   popular: boolean
 
+  @Column()
+  artistArtistId: number
+
   @ManyToOne(() => Artist, (artist: Artist) => artist.albums)
   artist: Artist
 
