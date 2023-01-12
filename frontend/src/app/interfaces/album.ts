@@ -10,5 +10,7 @@ export interface IAlbum {
   image: string
   themeColor: string
   popular: boolean
+  artistArtistId: number
+  // artistName: string
   tracks: ITrack[]
 }

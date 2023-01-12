@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'convertToDate',
+  name: 'convertToLongDate',
 })
-export class ConvertToDatePipe implements PipeTransform {
+export class ConvertToLongDatePipe implements PipeTransform {
   transform(value: string): string {
     const fullDate = new Date(value)
     const date = fullDate.getDate()

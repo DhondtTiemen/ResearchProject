@@ -9,11 +9,12 @@ import { SubTitle } from './generic/subtitle.component'
 import { GenresComponent } from './home/genres.component'
 import { PreOrderComponent } from './home/pre-orders.component'
 import { AllProductsComponent } from './search/all-products.component'
-import { ConvertToDatePipe } from './generic/pipes/convert-to-date.pipe'
+import { ConvertToLongDatePipe } from './pipes/convert-to-date.pipe'
 import { AppHolder } from './holders/app-holder.component'
 import { AppHeader } from './generic/app-header.component'
 import { AppFooter } from './generic/app-footer.component'
 import { AlbumsMain } from './album/albums-main.component'
+import { AlbumsSub } from './album/albums-sub.component'
 
 @NgModule({
   declarations: [
@@ -24,12 +25,13 @@ import { AlbumsMain } from './album/albums-main.component'
 
     SubTitle,
     AlbumsMain,
+    AlbumsSub,
 
     NavigationComponent,
     AllProductsComponent,
     GenresComponent,
     PreOrderComponent,
-    ConvertToDatePipe,
+    ConvertToLongDatePipe,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule],
   bootstrap: [AppComponent],
