@@ -1,0 +1,8 @@
+<input type="text" [(ngModel)]="productsFilter">
+<div *ngIf="filteredProducts.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 pb-8">
+    <div *ngFor="let album of filteredProducts">
+        <img class="shadow-md hover:opacity-25 mb-2" src="{{ album.image }}" alt="{{ album.title + 'cover'}}">
+        <p>{{ album.title }}</p>
+        <!-- <p>{{ album.releaseDate | convertToDate }}</p> -->
+    </div>
+</div>

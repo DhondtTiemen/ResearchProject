@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'pm-root',
+  template: `<div class="font-poppins">
+    <app-holder></app-holder>
+  </div>`,
 })
 export class AppComponent {
-  title = 'frontend';
+  pageTitle: string = 'Elpee'
 }
+
+// <navigation></navigation>
+
+// <sub-title></sub-title>
+// <genres></genres>
+
+// <sub-title></sub-title>
+// <pre-orders></pre-orders>

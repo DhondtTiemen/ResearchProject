@@ -1,0 +1,7 @@
+<div *ngIf="genres.length" class="flex items-center justify-start gap-2 pb-8">
+    <div *ngFor="let genre of genres">
+        <div class="bg-neutral-700 h-36 w-full mb-2">
+            <img class="shadow-md opacity-25 h-full w-full object-cover" src="{{ genre.image }}" alt="{{ genre.name }}">
+        </div>
+    </div>
+</div>

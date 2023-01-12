@@ -31,6 +31,9 @@ export class Album {
   @Column({ nullable: true })
   themeColor: string
 
+  @Column()
+  popular: boolean
+
   @ManyToOne(() => Artist, (artist: Artist) => artist.albums)
   artist: Artist
 
