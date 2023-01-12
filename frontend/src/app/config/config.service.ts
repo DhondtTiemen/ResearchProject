@@ -4,20 +4,30 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, catchError, tap, throwError } from 'rxjs'
 
 import { IAlbum } from '../interfaces/album'
+import { IArtist } from '../interfaces/artist'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  private productUrl = 'http://localhost:3003/'
+  private basicUrl = 'http://localhost:3003/'
 
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<IAlbum[]> {
-    return this.http.get<IAlbum[]>(this.productUrl + 'album').pipe(
-      tap((data) => console.log('All', JSON.stringify(data))),
+    return this.http.get<IAlbum[]>(this.basicUrl + 'album').pipe(
+      tap((data) => JSON.stringify(data)),
       catchError(this.handleError),
     )
+  }
+
+  getArtistById(artistId: number): Observable<IArtist> {
+    return this.http
+      .get<IArtist>(this.basicUrl + `artist/artistId/${artistId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {
