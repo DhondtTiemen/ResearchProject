@@ -22,22 +22,34 @@ export class AlbumService {
   findAlbumById(albumId: number): Promise<Album> {
     return this.albumRepository.findOne({
       where: { albumId: albumId },
-      relations: ['tracks'],
+      relations: ['tracks', 'genres'],
     })
   }
 
-  findAlbumByTitle(title: string): Promise<Album> {
-    return this.albumRepository.findOne({
-      where: { title: title },
-      relations: ['tracks'],
-    })
+  // findAlbumByTitle(title: string): Promise<Album> {
+  //   return this.albumRepository.findOne({
+  //     where: { title: title },
+  //     relations: ['tracks'],
+  //   })
+  // }
+
+  async findAlbums(): Promise<Album[]> {
+    // return this.albumRepository.find({ relations: ['tracks'] })
+    const albums = await this.albumRepository
+      .createQueryBuilder('album')
+      .innerJoin('album.artist', 'artist')
+      .select([
+        'album.albumId',
+        'album.title',
+        'artist.firstName',
+        'artist.lastName',
+      ])
+      // .where("album.artistId = :artistId", { artistId: "John Doe" })
+      .getMany()
+    return albums
   }
 
-  findAlbums(): Promise<Album[]> {
-    return this.albumRepository.find({ relations: ['tracks'] })
-  }
-
-  async createAlbumByArtist(createAlbumDto: CreateAlbumDto): Promise<Album> {
+  async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
     const artistId = createAlbumDto.artistId
     const artist = await this.artistRepository.findOneBy({ artistId })
 

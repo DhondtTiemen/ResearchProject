@@ -50,4 +50,8 @@ export class TrackService {
     })
     return this.trackRepository.save(updateTrack)
   }
+
+  async removeTrackById(trackId: number): Promise<void> {
+    await this.trackRepository.delete(trackId)
+  }
 }

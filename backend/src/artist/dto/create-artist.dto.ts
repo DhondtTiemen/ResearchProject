@@ -1,10 +1,8 @@
 export class CreateArtistDto {
+  artistName: string
   firstName: string
   lastName: string
-
-  // birthDate: string
-
-  // description: string
-
-  // image: string
+  birthDate: Date
+  description: string
+  image: string
 }
