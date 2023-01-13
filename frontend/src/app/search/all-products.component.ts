@@ -34,7 +34,7 @@ export class AllProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.configService.getProducts().subscribe({
+    this.configService.getAlbums().subscribe({
       next: (allProducts) => {
         this.allProducts = allProducts
         this.filteredProducts = this.allProducts

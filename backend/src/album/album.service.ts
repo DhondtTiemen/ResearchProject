@@ -41,6 +41,10 @@ export class AlbumService {
       .select([
         'album.albumId',
         'album.title',
+        'album.releaseDate',
+        'album.popular',
+        'album.image',
+        'artist.artistName',
         'artist.firstName',
         'artist.lastName',
       ])

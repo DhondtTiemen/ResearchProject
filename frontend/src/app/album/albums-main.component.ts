@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+
 import { ConfigService } from '../config/config.service'
+
 import { IAlbum } from '../interfaces/album'
 
 @Component({
@@ -14,7 +16,7 @@ export class AlbumsMain implements OnInit {
   constructor(private configService: ConfigService) {}
 
   ngOnInit(): void {
-    this.configService.getProducts().subscribe({
+    this.configService.getAlbums().subscribe({
       next: (data) => {
         for (let album of data) {
           if (album.popular) {

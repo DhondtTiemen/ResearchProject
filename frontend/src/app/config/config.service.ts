@@ -5,6 +5,7 @@ import { Observable, catchError, tap, throwError } from 'rxjs'
 
 import { IAlbum } from '../interfaces/album'
 import { IArtist } from '../interfaces/artist'
+import { IGenre } from '../interfaces/genre'
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,15 @@ export class ConfigService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<IAlbum[]> {
+  getAlbums(): Observable<IAlbum[]> {
     return this.http.get<IAlbum[]>(this.basicUrl + 'album').pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  getGenres(): Observable<IGenre[]> {
+    return this.http.get<IGenre[]>(this.basicUrl + 'genre').pipe(
       tap((data) => JSON.stringify(data)),
       catchError(this.handleError),
     )
