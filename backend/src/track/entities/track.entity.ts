@@ -1,15 +1,16 @@
-import { Album } from 'src/album/entities/album.entity'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
+import { Album } from 'src/album/entities/album.entity'
 
 @Entity({ name: 'track' })
 export class Track {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'trackId', unsigned: true })
   trackId: number
 
-  @Column()
+  @Column('int', { name: 'trackNumber', nullable: true })
   trackNumber: number
 
-  @Column()
+  @Column('varchar', { name: 'title', length: 255 })
   title: string
 
   @ManyToOne(() => Album, (album: Album) => album.tracks)

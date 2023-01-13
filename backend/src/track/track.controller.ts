@@ -29,8 +29,8 @@ export class TrackController {
     return this.trackService.updateTrack(updateTrackDto)
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.trackService.remove(+id)
-  // }
+  @Delete(':trackId')
+  async deleteTrackById(@Param('trackId') trackId: number) {
+    return this.trackService.removeTrackById(trackId)
+  }
 }

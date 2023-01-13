@@ -9,15 +9,15 @@ import { UpdateAlbumDto } from './dto/update-album.dto'
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Get('id/:albumId')
+  @Get(':albumId')
   getAlbumById(@Param('albumId') albumId: number): Promise<Album> {
     return this.albumService.findAlbumById(albumId)
   }
 
-  @Get('title/:title')
-  getAlbumByTitle(@Param('title') title: string): Promise<Album> {
-    return this.albumService.findAlbumByTitle(title)
-  }
+  // @Get('title/:title')
+  // getAlbumByTitle(@Param('title') title: string): Promise<Album> {
+  //   return this.albumService.findAlbumByTitle(title)
+  // }
 
   @Get()
   getAlbum(): Promise<Album[]> {
@@ -26,7 +26,7 @@ export class AlbumController {
 
   @Post()
   createAlbum(@Body() createAlbumDto: CreateAlbumDto): Promise<Album> {
-    return this.albumService.createAlbumByArtist(createAlbumDto)
+    return this.albumService.createAlbum(createAlbumDto)
   }
 
   @Put()

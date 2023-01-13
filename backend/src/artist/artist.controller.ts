@@ -9,23 +9,23 @@ import { UpdateArtistDto } from './dto/update-artist.dto'
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @Get('artistId/:artistId')
+  @Get(':artistId')
   getArtistById(@Param('artistId') artistId: number): Promise<Artist> {
     return this.artistService.findArtistById(artistId)
   }
 
-  @Get('firstName/:firstName')
-  getArtistByFirstName(@Param('firstName') firstName: string): Promise<Artist> {
-    return this.artistService.findArtistByFirstName(firstName)
-  }
+  // @Get('firstName/:firstName')
+  // getArtistByFirstName(@Param('firstName') firstName: string): Promise<Artist> {
+  //   return this.artistService.findArtistByFirstName(firstName)
+  // }
 
-  @Get('lastName/:lastName')
-  getArtistByLastName(@Param('lastName') lastName: string): Promise<Artist> {
-    return this.artistService.findArtistByLastName(lastName)
-  }
+  // @Get('lastName/:lastName')
+  // getArtistByLastName(@Param('lastName') lastName: string): Promise<Artist> {
+  //   return this.artistService.findArtistByLastName(lastName)
+  // }
 
   @Get()
-  getArtist(): Promise<Artist[]> {
+  getArtists(): Promise<Artist[]> {
     return this.artistService.findArtists()
   }
 
