@@ -8,7 +8,7 @@ import { AppNavigationComponent } from './generic/app-navigation.component'
 import { SubTitle } from './generic/subtitle.component'
 import { GenresComponent } from './genre/genres.component'
 import { PreOrderComponent } from './home/pre-orders.component'
-import { AllProductsComponent } from './search/all-products.component'
+import { SearchPageComponent } from './screens/search'
 import { ConvertToLongDatePipe } from './pipes/convert-to-date.pipe'
 import { AppHolder } from './holders/app-holder.component'
 import { AppHeader } from './generic/app-header.component'
@@ -27,6 +27,10 @@ import {
   User,
 } from 'lucide-angular'
 import { LogoComponent } from './generic/logo.component'
+import { HomePageComponent } from './screens/home'
+import { FavoritesPageComponent } from './screens/favorites'
+import { UserPageComponent } from './screens/user'
+import { CartPageComponent } from './screens/cart'
 
 @NgModule({
   declarations: [
@@ -43,7 +47,6 @@ import { LogoComponent } from './generic/logo.component'
     AlbumsSub,
     GenresComponent,
 
-    AllProductsComponent,
     PreOrderComponent,
 
     ConvertToLongDatePipe,
@@ -54,8 +57,13 @@ import { LogoComponent } from './generic/logo.component'
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: 'albums', component: AllProductsComponent },
+      { path: '', component: HomePageComponent },
+      { path: 'favorites', component: FavoritesPageComponent },
+      { path: 'albums', component: SearchPageComponent },
       { path: 'albums/:id', component: AlbumDetailComponent },
+      { path: 'cart', component: CartPageComponent },
+      { path: 'user', component: UserPageComponent },
+
       { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]),
     LucideAngularModule.pick({ Home, Heart, Search, ShoppingBag, User }),

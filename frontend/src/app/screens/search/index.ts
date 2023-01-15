@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 
-import { ConfigService } from '../config/config.service'
+import { ConfigService } from '../../config/config.service'
 
-import { IAlbum } from '../interfaces/album'
+import { IAlbum } from '../../interfaces/album'
 
 @Component({
-  selector: 'all-products',
-  templateUrl: './all-products.component.html',
+  selector: 'search-page',
+  templateUrl: './index.html',
 })
-export class AllProductsComponent implements OnInit {
+export class SearchPageComponent implements OnInit {
   private _productsFilter: string = ''
   get productsFilter(): string {
     return this._productsFilter
