@@ -1,0 +1,10 @@
+<div *ngIf="preOrderAlbums.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 pb-8 px-6 md:px-8">
+    <div *ngFor="let preOrder of preOrderAlbums">
+        <div class="relative">
+            <img class="shadow-md hover:opacity-25 mb-2" src="{{ preOrder.image }}" alt="{{ preOrder.title + 'cover'}}">
+            <p class="absolute top-0 left-0 py-1 px-2 bg-neutral-800 text-white bg-opacity-80">{{ preOrder.releaseDate | convertToDateCounter }} days</p>
+        </div>
+        <p class="opacity-60 text-sm">{{ preOrder.artist.artistName }}</p>
+        <p>{{ preOrder.title }}</p>
+    </div>
+</div>
