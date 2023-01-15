@@ -39,27 +39,27 @@ export class ArtistService {
     return this.artistRepository.find({ relations: ['albums'] })
   }
 
-  createArtist(createArtistInput: CreateArtistDto): Promise<Artist> {
+  createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
     const newArtist = new Artist()
-    newArtist.artistName = createArtistInput.artistName
-    newArtist.firstName = createArtistInput.firstName
-    newArtist.lastName = createArtistInput.lastName
-    newArtist.birthDate = createArtistInput.birthDate
-    newArtist.description = createArtistInput.description
-    newArtist.image = createArtistInput.image
+    newArtist.artistName = createArtistDto.artistName
+    newArtist.firstName = createArtistDto.firstName
+    newArtist.lastName = createArtistDto.lastName
+    newArtist.birthDate = createArtistDto.birthDate
+    newArtist.description = createArtistDto.description
+    newArtist.image = createArtistDto.image
 
     return this.artistRepository.save(newArtist)
   }
 
-  updateArtist(updateArtistInput: UpdateArtistDto): Promise<Artist> {
+  updateArtist(updateArtistDto: UpdateArtistDto): Promise<Artist> {
     const update = new Artist()
-    update.artistId = updateArtistInput.artistId
-    update.artistName = updateArtistInput.artistName
-    update.firstName = updateArtistInput.firstName
-    update.lastName = updateArtistInput.lastName
-    update.birthDate = updateArtistInput.birthDate
-    update.description = updateArtistInput.description
-    update.image = updateArtistInput.image
+    update.artistId = updateArtistDto.artistId
+    update.artistName = updateArtistDto.artistName
+    update.firstName = updateArtistDto.firstName
+    update.lastName = updateArtistDto.lastName
+    update.birthDate = updateArtistDto.birthDate
+    update.description = updateArtistDto.description
+    update.image = updateArtistDto.image
 
     return this.artistRepository.save(update)
   }

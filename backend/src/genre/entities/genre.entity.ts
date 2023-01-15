@@ -10,7 +10,7 @@ import { Album } from 'src/album/entities/album.entity'
 
 @Entity({ name: 'genre' })
 export class Genre {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'genreId', unsigned: true })
   genreId: number
 
   @Column('varchar', { name: 'name', length: 255 })

@@ -30,13 +30,13 @@ export class ArtistController {
   }
 
   @Post()
-  createArtist(@Body() createArtistInput: CreateArtistDto): Promise<Artist> {
-    return this.artistService.createArtist(createArtistInput)
+  createArtist(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
+    return this.artistService.createArtist(createArtistDto)
   }
 
   @Put()
-  updateArtist(@Body() updateArtistInput: UpdateArtistDto): Promise<Artist> {
-    return this.artistService.updateArtist(updateArtistInput)
+  updateArtist(@Body() updateArtistDto: UpdateArtistDto): Promise<Artist> {
+    return this.artistService.updateArtist(updateArtistDto)
   }
 
   @Delete(':artistId')

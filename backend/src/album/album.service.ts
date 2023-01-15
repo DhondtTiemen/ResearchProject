@@ -26,15 +26,7 @@ export class AlbumService {
     })
   }
 
-  // findAlbumByTitle(title: string): Promise<Album> {
-  //   return this.albumRepository.findOne({
-  //     where: { title: title },
-  //     relations: ['tracks'],
-  //   })
-  // }
-
   async findAlbums(): Promise<Album[]> {
-    // return this.albumRepository.find({ relations: ['tracks'] })
     const albums = await this.albumRepository
       .createQueryBuilder('album')
       .innerJoin('album.artist', 'artist')
