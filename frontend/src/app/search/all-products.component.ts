@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+
 import { ConfigService } from '../config/config.service'
+
 import { IAlbum } from '../interfaces/album'
 
 @Component({

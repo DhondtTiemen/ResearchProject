@@ -1,16 +1,17 @@
 <div class="h-full bg-neutral-50 text-dark dark:bg-neutral-800 dark:text-light min-h-screen flex flex-col">
-    <div>
-        <app-header></app-header>
-        
-        <sub-title [subTitle]="'Popular'"></sub-title>
-        <albums-main></albums-main>
+    <app-header></app-header>
 
-        <sub-title [subTitle]="'Genres'"></sub-title>
-        <genres-component></genres-component>
+    <router-outlet class="overflow-y-auto"></router-outlet>
         
-        <sub-title [subTitle]="'Pre-Order'"></sub-title>
-        <albums-sub></albums-sub>
-        
-        <app-footer></app-footer>
-    </div>
+    <app-footer></app-footer>
 </div>
+
+<!-- <navigation></navigation>
+<sub-title [subTitle]="'Popular'"></sub-title>
+<albums-main></albums-main>
+
+<sub-title [subTitle]="'Genres'"></sub-title>
+<genres-component></genres-component>
+
+<sub-title [subTitle]="'Pre-Order'"></sub-title>
+<albums-sub></albums-sub> -->
