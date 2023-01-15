@@ -4,20 +4,20 @@ import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component'
-import { AppNavigationComponent } from './generic/app-navigation.component'
-import { SubTitle } from './generic/subtitle.component'
-import { GenresComponent } from './genre/genres.component'
+import { AppNavigationComponent } from './components/generic/app-navigation.component'
+import { SubTitle } from './components/generic/subtitle.component'
+import { GenresComponent } from './components/genre/genres.component'
 import { PreOrderComponent } from './home/pre-orders.component'
 import { SearchPageComponent } from './screens/search'
 import { ConvertToLongDatePipe } from './pipes/convert-to-date.pipe'
-import { AppHolder } from './holders/app-holder.component'
-import { AppHeader } from './generic/app-header.component'
-import { AppFooter } from './generic/app-footer.component'
-import { AlbumsMain } from './album/albums-main.component'
-import { AlbumsSub } from './album/albums-sub.component'
+import { AppHolder } from './components/holders/app-holder.component'
+import { AppHeader } from './components/generic/app-header.component'
+import { AppFooter } from './components/generic/app-footer.component'
+import { AlbumsMain } from './components/album/albums-main.component'
+import { AlbumsSub } from './components/album/albums-sub.component'
 import { ConvertToDateCounter } from './pipes/convert-to-counter.pipe'
 import { RouterModule } from '@angular/router'
-import { AlbumDetailComponent } from './album/album-detail.component'
+import { AlbumDetailComponent } from './components/album/album-detail.component'
 import {
   LucideAngularModule,
   Home,
@@ -26,11 +26,12 @@ import {
   ShoppingBag,
   User,
 } from 'lucide-angular'
-import { LogoComponent } from './generic/logo.component'
+import { LogoComponent } from './components/generic/logo.component'
 import { HomePageComponent } from './screens/home'
 import { FavoritesPageComponent } from './screens/favorites'
 import { UserPageComponent } from './screens/user'
 import { CartPageComponent } from './screens/cart'
+import { AlbumsFavorites } from './components/album/albums-list.component'
 
 @NgModule({
   declarations: [
@@ -45,9 +46,17 @@ import { CartPageComponent } from './screens/cart'
     SubTitle,
     AlbumsMain,
     AlbumsSub,
+    AlbumsFavorites,
     GenresComponent,
 
     PreOrderComponent,
+
+    HomePageComponent,
+    FavoritesPageComponent,
+    SearchPageComponent,
+    AlbumDetailComponent,
+    CartPageComponent,
+    UserPageComponent,
 
     ConvertToLongDatePipe,
     ConvertToDateCounter,

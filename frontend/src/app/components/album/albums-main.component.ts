@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 
-import { ConfigService } from '../config/config.service'
+import { ConfigService } from '../../config/config.service'
 
-import { IAlbum } from '../interfaces/album'
+import { IAlbum } from '../../interfaces/album'
 
 @Component({
   selector: 'albums-main',

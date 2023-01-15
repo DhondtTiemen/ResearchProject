@@ -1,12 +1,25 @@
-<!-- <input type="text" [(ngModel)]="productsFilter">
-<div *ngIf="filteredProducts.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 pb-8">
-    <div *ngFor="let album of filteredProducts">
-        <img class="shadow-md hover:opacity-25 mb-2" src="{{ album.image }}" alt="{{ album.title + 'cover'}}">
-        <p>{{ album.title }}</p>
-        <p>{{ album.releaseDate | convertToDate }}</p>
+<div class="px-6 md:px-8">
+  <input
+    type="text"
+    placeholder="Search album..."
+    [(ngModel)]="albumsFilter"
+    class="mb-4 w-full border border-opacity-60 bg-neutral-50 px-4 py-2 outline-none focus-visible:ring-2"
+  />
+  <div
+    *ngIf="filteredAlbums.length"
+    class="grid grid-cols-2 gap-2 pb-8 md:grid-cols-3 lg:grid-cols-4 lg:gap-4"
+  >
+    <div *ngFor="let album of filteredAlbums">
+      <div class="relative">
+        <img
+          class="mb-2 shadow-md hover:opacity-25"
+          src="{{ album.image }}"
+          alt="{{ album.title + 'cover' }}"
+        />
+      </div>
+      <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
+      <p>{{ album.title }}</p>
+      <p>{{ album.price }}</p>
     </div>
-</div> -->
-
-<div>
-    Search
+  </div>
 </div>

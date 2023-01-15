@@ -1,4 +1,4 @@
-<div *ngIf="popularAlbums.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 pb-8 px-6 md:px-8">
+<div *ngIf="popularAlbums.length" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 lg:gap-4 pb-8 px-6 md:px-8">
     <div *ngFor="let album of popularAlbums" class="bg-neutral-700">
         <img class="shadow-md hover:opacity-25" [src]="album.image" [alt]="album.title + ' cover'" [title]="album.title + ' cover'">
     </div>
