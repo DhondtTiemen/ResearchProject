@@ -20,12 +20,12 @@ export class GenreController {
   }
 
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
+  createGenre(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
     return this.genreService.createGenre(createGenreDto)
   }
 
   @Put()
-  update(@Body() updateGenreDto: UpdateGenreDto): Promise<Genre> {
+  updateGenre(@Body() updateGenreDto: UpdateGenreDto): Promise<Genre> {
     return this.genreService.updateGenre(updateGenreDto)
   }
 

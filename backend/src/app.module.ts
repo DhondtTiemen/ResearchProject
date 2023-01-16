@@ -7,6 +7,8 @@ import { ArtistModule } from './artist/artist.module'
 import { AlbumModule } from './album/album.module'
 import { TrackModule } from './track/track.module'
 import { GenreModule } from './genre/genre.module';
+import { OrderModule } from './order/order.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { GenreModule } from './genre/genre.module';
     AlbumModule,
     TrackModule,
     GenreModule,
+    OrderModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

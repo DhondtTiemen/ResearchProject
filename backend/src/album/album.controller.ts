@@ -14,11 +14,6 @@ export class AlbumController {
     return this.albumService.findAlbumById(albumId)
   }
 
-  // @Get('title/:title')
-  // getAlbumByTitle(@Param('title') title: string): Promise<Album> {
-  //   return this.albumService.findAlbumByTitle(title)
-  // }
-
   @Get()
   getAlbum(): Promise<Album[]> {
     return this.albumService.findAlbums()

@@ -10,8 +10,9 @@ import {
 } from 'typeorm'
 
 import { Artist } from 'src/artist/entities/artist.entity'
-import { Track } from 'src/track/entities/track.entity'
 import { Genre } from 'src/genre/entities/genre.entity'
+import { Track } from 'src/track/entities/track.entity'
+import { Order } from 'src/order/entities/order.entity'
 
 @Entity({ name: 'album' })
 export class Album {
@@ -51,4 +52,8 @@ export class Album {
   @ManyToMany(() => Genre, (genre: Genre) => genre.albums)
   @JoinTable()
   genres: Genre[]
+
+  @ManyToMany(() => Order, (order: Order) => order.albums)
+  @JoinTable()
+  orders: Order[]
 }
