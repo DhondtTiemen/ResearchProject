@@ -9,9 +9,14 @@ import { UpdateGenreDto } from './dto/update-genre.dto'
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
-  @Get(':genreId')
+  @Get('genreId/:genreId')
   findOne(@Param('genreId') genreId: number): Promise<Genre> {
     return this.genreService.findGenreById(genreId)
+  }
+
+  @Get('genreName/:genreName')
+  findGenreByGenreName(@Param('genreName') genreName: string): Promise<Genre> {
+    return this.genreService.findGenreByGenreName(genreName)
   }
 
   @Get()

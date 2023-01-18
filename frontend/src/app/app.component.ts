@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { AlanService } from './services/alan.service'
 
 @Component({
   selector: 'pm-root',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
   pageTitle: string = 'Elpee'
+  constructor(private readonly alanService: AlanService) {}
 }

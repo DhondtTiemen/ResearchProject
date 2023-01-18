@@ -9,9 +9,26 @@ import { UpdateAlbumDto } from './dto/update-album.dto'
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Get(':albumId')
+  @Get('albumId/:albumId')
   getAlbumById(@Param('albumId') albumId: number): Promise<Album> {
     return this.albumService.findAlbumById(albumId)
+  }
+
+  @Get('albumTitle/:albumTitle')
+  getAlbumByAlbumTitle(
+    @Param('albumTitle') albumTitle: string,
+  ): Promise<Album[]> {
+    return this.albumService.findAlbumByAlbumTitle(albumTitle)
+  }
+
+  @Get('popular')
+  getAlbumPopular(): Promise<Album[]> {
+    return this.albumService.findAlbumByPopular()
+  }
+
+  @Get('year/:year')
+  getAlbumByYear(@Param('year') year: number): Promise<Album[]> {
+    return this.albumService.findAlbumByYear(year)
   }
 
   @Get()

@@ -26,6 +26,64 @@ export class AlbumService {
     })
   }
 
+  async findAlbumByAlbumTitle(inputAlbumTitle: string): Promise<Album[]> {
+    const title = inputAlbumTitle.replace('-', ' ')
+    const albums = await this.albumRepository
+      .createQueryBuilder('album')
+      .innerJoin('album.artist', 'artist')
+      .select([
+        'album.albumId',
+        'album.title',
+        'album.releaseDate',
+        'album.popular',
+        'album.image',
+        'artist.artistName',
+        'artist.firstName',
+        'artist.lastName',
+      ])
+      .where('album.title = :albumTitle', { albumTitle: title.toLowerCase() })
+      .getMany()
+    return albums
+  }
+
+  async findAlbumByYear(inputYear: number): Promise<Album[]> {
+    const albums = await this.albumRepository
+      .createQueryBuilder('album')
+      .innerJoin('album.artist', 'artist')
+      .select([
+        'album.albumId',
+        'album.title',
+        'album.releaseDate',
+        'album.popular',
+        'album.image',
+        'artist.artistName',
+        'artist.firstName',
+        'artist.lastName',
+      ])
+      .where('year(album.releaseDate) = :year', { year: inputYear })
+      .getMany()
+    return albums
+  }
+
+  async findAlbumByPopular(): Promise<Album[]> {
+    const albums = await this.albumRepository
+      .createQueryBuilder('album')
+      .innerJoin('album.artist', 'artist')
+      .select([
+        'album.albumId',
+        'album.title',
+        'album.releaseDate',
+        'album.popular',
+        'album.image',
+        'artist.artistName',
+        'artist.firstName',
+        'artist.lastName',
+      ])
+      .where('album.popular = :boolean', { boolean: true })
+      .getMany()
+    return albums
+  }
+
   async findAlbums(): Promise<Album[]> {
     const albums = await this.albumRepository
       .createQueryBuilder('album')
@@ -40,7 +98,6 @@ export class AlbumService {
         'artist.firstName',
         'artist.lastName',
       ])
-      // .where("album.artistId = :artistId", { artistId: "John Doe" })
       .getMany()
     return albums
   }
