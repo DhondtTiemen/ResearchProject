@@ -21,19 +21,27 @@ export class ArtistService {
     })
   }
 
-  // findArtistByFirstName(firstName: string): Promise<Artist> {
-  //   return this.artistRepository.findOne({
-  //     where: { firstName: firstName },
-  //     relations: ['albums'],
-  //   })
-  // }
+  findArtistByArtistName(artistName: string): Promise<Artist> {
+    const artist = artistName.replace('-', ' ')
+    return this.artistRepository.findOne({
+      where: { artistName: artist.toLowerCase() },
+      relations: ['albums'],
+    })
+  }
 
-  // findArtistByLastName(lastName: string): Promise<Artist> {
-  //   return this.artistRepository.findOne({
-  //     where: { lastName: lastName },
-  //     relations: ['albums'],
-  //   })
-  // }
+  findArtistByFirstName(firstName: string): Promise<Artist> {
+    return this.artistRepository.findOne({
+      where: { firstName: firstName },
+      relations: ['albums'],
+    })
+  }
+
+  findArtistByLastName(lastName: string): Promise<Artist> {
+    return this.artistRepository.findOne({
+      where: { lastName: lastName },
+      relations: ['albums'],
+    })
+  }
 
   findArtists(): Promise<Artist[]> {
     return this.artistRepository.find({ relations: ['albums'] })

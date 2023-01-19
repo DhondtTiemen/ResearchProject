@@ -14,15 +14,22 @@ export class ArtistController {
     return this.artistService.findArtistById(artistId)
   }
 
-  // @Get('firstName/:firstName')
-  // getArtistByFirstName(@Param('firstName') firstName: string): Promise<Artist> {
-  //   return this.artistService.findArtistByFirstName(firstName)
-  // }
+  @Get('artistName/:artistName')
+  getArtistByArtistName(
+    @Param('artistName') artistName: string,
+  ): Promise<Artist> {
+    return this.artistService.findArtistByArtistName(artistName)
+  }
 
-  // @Get('lastName/:lastName')
-  // getArtistByLastName(@Param('lastName') lastName: string): Promise<Artist> {
-  //   return this.artistService.findArtistByLastName(lastName)
-  // }
+  @Get('firstName/:firstName')
+  getArtistByFirstName(@Param('firstName') firstName: string): Promise<Artist> {
+    return this.artistService.findArtistByFirstName(firstName)
+  }
+
+  @Get('lastName/:lastName')
+  getArtistByLastName(@Param('lastName') lastName: string): Promise<Artist> {
+    return this.artistService.findArtistByLastName(lastName)
+  }
 
   @Get()
   getArtists(): Promise<Artist[]> {

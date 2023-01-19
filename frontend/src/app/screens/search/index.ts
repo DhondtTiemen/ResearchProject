@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 
-import { ConfigService } from '../../config/config.service'
+import { ConfigService } from '../../services/config.service'
 
 import { IAlbum } from '../../interfaces/album'
 
@@ -19,7 +19,7 @@ export class SearchPageComponent implements OnInit {
     console.log(this.filteredAlbums)
   }
 
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   filteredAlbums: IAlbum[] = []
   allAlbums: IAlbum[] = []
