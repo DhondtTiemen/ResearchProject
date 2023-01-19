@@ -4,14 +4,13 @@ name: Trigger auto deployment for researchproject-container
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ main ]
+    branches: [main]
     paths:
-    - '**'
-    - '.github/workflows/researchproject-container-AutoDeployTrigger-1f0b7728-d7b2-4c9b-a71c-9bb6defb8fd2.yml'
+      - '**'
+      - '.github/workflows/researchproject-container-AutoDeployTrigger-1f0b7728-d7b2-4c9b-a71c-9bb6defb8fd2.yml'
 
-  # Allow mannually trigger 
-  workflow_dispatch:      
+  # Allow mannually trigger
+  workflow_dispatch:
 
 jobs:
   build:
@@ -37,19 +36,17 @@ jobs:
           push: true
           tags: researchprojectregistry.azurecr.io/researchproject-container:${{ github.sha }}
           file: ./backend/Dockerfile
-          context: ./
-
+          context: ./backend
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.RESEARCHPROJECTCONTAINER_AZURE_CREDENTIALS }}
-
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
