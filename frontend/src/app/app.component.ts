@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { AlanService } from './services/alan.service'
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'pm-root',
+  template: `<div>
+    <app-holder></app-holder>
+  </div>`,
 })
 export class AppComponent {
-  title = 'frontend';
+  pageTitle: string = 'Elpee'
+  constructor(private readonly alanService: AlanService) {}
 }

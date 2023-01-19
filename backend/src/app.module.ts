@@ -1,18 +1,27 @@
 import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ApolloDriverConfig } from '@nestjs/apollo'
-import { GraphQLModule } from '@nestjs/graphql/dist/graphql.module'
 
 import { typeOrmConfig } from './bootstrap/typeORMConfig'
-import { graphqlConfig } from './bootstrap/graphQLConfig'
 
 import { ArtistModule } from './artist/artist.module'
+import { AlbumModule } from './album/album.module'
+import { TrackModule } from './track/track.module'
+import { GenreModule } from './genre/genre.module'
+import { OrderModule } from './order/order.module'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
-    GraphQLModule.forRoot<ApolloDriverConfig>(graphqlConfig),
+
     ArtistModule,
+    AlbumModule,
+    TrackModule,
+    GenreModule,
+    OrderModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
