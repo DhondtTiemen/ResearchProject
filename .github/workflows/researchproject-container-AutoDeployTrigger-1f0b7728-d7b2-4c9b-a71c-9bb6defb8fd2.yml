@@ -36,7 +36,7 @@ jobs:
           push: true
           tags: researchprojectregistry.azurecr.io/researchproject-container:${{ github.sha }}
           file: ./backend/Dockerfile
-          context: ./backend
+          context: ./backend/
 
   deploy:
     runs-on: ubuntu-latest
