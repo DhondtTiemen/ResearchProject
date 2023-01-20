@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-bullseye-slim
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
+
+# The magic fix, which is making the world a better place
+RUN apt-get update && apt-get install -y unixodbc-dev
 
 RUN npm install
 
@@ -17,4 +20,4 @@ COPY . .
 RUN npm run build
 
 # Start the app
-CMD [ "npm", "dist/main.js" ]
+CMD [ "npm", "start" ]
