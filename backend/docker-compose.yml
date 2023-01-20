@@ -1,7 +1,6 @@
-version: '3.4'
-
+version: "3.4"
 services:
-  backend: 
+  backend:
     image: backend
     build:
       context: .
@@ -9,4 +8,6 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 3004:3004
+      - "3004:3004"
+    volumes:
+      - .:/backend

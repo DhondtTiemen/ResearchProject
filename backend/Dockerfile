@@ -1,23 +1,20 @@
-# Base image
 FROM node:18
-
 
 # Create app directory
 WORKDIR /usr/src/app
 
+# Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
 COPY package*.json ./
 
-# Install app dependencies
 RUN npm install
 
 # Bundle app source
 COPY . .
 
-
-# Creates a "dist" folder with the production build
+# Install mysql driver
 RUN npm run build
 
-# Start the server using the production build
-
-CMD [ "node", "dist/main.js" ]
+# Start the app
+CMD [ "npm", "dist/main.js" ]
