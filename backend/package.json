@@ -31,6 +31,8 @@
     "@nestjs/typeorm": "^9.0.1",
     "apollo-server-express": "^3.11.1",
     "graphql": "^16.6.0",
+    "msnodesqlv8": "^3.0.1",
+    "mssql": "^7.3.5",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

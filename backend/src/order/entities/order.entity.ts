@@ -22,6 +22,9 @@ export class Order {
   @Column('boolean', { name: 'complete', nullable: true })
   complete: boolean
 
+  @Column({ type: 'date', name: 'orderDate', nullable: true })
+  orderDate: Date
+
   @ManyToOne(() => User, (user: User) => user.orders)
   user: User
 

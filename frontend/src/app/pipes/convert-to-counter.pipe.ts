@@ -8,7 +8,8 @@ export class ConvertToDateCounter implements PipeTransform {
     const releaseDate = new Date(value)
     const todayDate = new Date()
 
-    const counter = releaseDate.getDate() - todayDate.getDate()
+    const differenceTime = releaseDate.getTime() - todayDate.getTime()
+    const counter = Math.round(differenceTime / (1000 * 3600 * 24))
     return counter
   }
 }

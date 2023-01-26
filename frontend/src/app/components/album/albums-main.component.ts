@@ -20,7 +20,14 @@ export class AlbumsMain implements OnInit {
       next: (data) => {
         for (let album of data) {
           if (album.popular) {
-            this.popularAlbums.push(album)
+            if (this.popularAlbums.length < 8) {
+              this.popularAlbums.push(album)
+              this.popularAlbums.sort(
+                (a, b) =>
+                  new Date(b.releaseDate).getTime() -
+                  new Date(a.releaseDate).getTime(),
+              )
+            }
           }
         }
       },

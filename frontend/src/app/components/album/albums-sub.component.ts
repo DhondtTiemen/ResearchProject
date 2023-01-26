@@ -22,6 +22,7 @@ export class AlbumsSub implements OnInit {
         for (let album of data) {
           const releaseDate = new Date(album.releaseDate)
           const todayDate = new Date()
+
           if (releaseDate > todayDate) {
             if (this.preOrderAlbums.length < 8) {
               this.preOrderAlbums.push(album)

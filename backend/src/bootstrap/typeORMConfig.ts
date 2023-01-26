@@ -9,11 +9,11 @@ import { User } from 'src/user/entities/user.entity'
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: 'localhost',
+  host: 'researchprojectserver.mysql.database.azure.com',
+  username: 'tiemendhondt',
   port: 3306,
-  username: 'root',
   password: 'Test1234!',
-  database: 'elpeesdb',
+  database: 'elpeedb',
   entities: [Artist, Album, Track, Genre, User, Order],
   synchronize: true,
 }

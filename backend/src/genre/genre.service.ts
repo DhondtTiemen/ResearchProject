@@ -6,18 +6,22 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Genre } from './entities/genre.entity'
 import { CreateGenreDto } from './dto/create-genre.dto'
 import { UpdateGenreDto } from './dto/update-genre.dto'
+import { Album } from 'src/album/entities/album.entity'
 
 @Injectable()
 export class GenreService {
   constructor(
     @InjectRepository(Genre)
     private readonly genreRepository: Repository<Genre>,
+
+    @InjectRepository(Album)
+    private readonly albumRepository: Repository<Album>,
   ) {}
 
-  findGenreById(genreId: number): Promise<Genre> {
+  async findGenreById(genreId: number): Promise<any> {
     return this.genreRepository.findOne({
       where: { genreId: genreId },
-      relations: ['albums'],
+      relations: ['albums', 'albums.artist'],
     })
   }
 
@@ -32,21 +36,41 @@ export class GenreService {
     return this.genreRepository.find({ relations: ['albums'] })
   }
 
-  createGenre(createGenreDto: CreateGenreDto): Promise<Genre> {
-    const newGenre = new Genre()
-    newGenre.name = createGenreDto.name
-    newGenre.image = createGenreDto.image
+  async createGenre(createGenreDto: CreateGenreDto): Promise<Genre> {
+    // const newGenre = new Genre()
+    // newGenre.name = createGenreDto.name
+    // newGenre.image = createGenreDto.image
 
+    // return this.genreRepository.save(newGenre)
+
+    const newGenre = this.genreRepository.create({ ...createGenreDto })
     return this.genreRepository.save(newGenre)
   }
 
   async updateGenre(updateGenreDto: UpdateGenreDto): Promise<Genre> {
-    const update = new Genre()
-    update.genreId = updateGenreDto.genreId
-    update.name = updateGenreDto.name
-    update.image = updateGenreDto.image
+    // let albums: Album[] = []
 
-    return this.genreRepository.save(update)
+    // for (let item of updateGenreDto.albums) {
+    //   console.log(item)
+    //   const album = await this.albumRepository.findOneBy({
+    //     albumId: item.albumId,
+    //   })
+    //   albums.push(album)
+    // }
+
+    // const update = new Genre()
+    // update.genreId = updateGenreDto.genreId
+    // update.name = updateGenreDto.name
+    // update.image = updateGenreDto.image
+    // update.albums = updateGenreDto.albums
+
+    console.log(updateGenreDto)
+
+    const updateGenre = this.genreRepository.create({
+      ...updateGenreDto,
+      // albums,
+    })
+    return this.genreRepository.save(updateGenre)
   }
 
   async removeGenreById(genreId: number): Promise<void> {

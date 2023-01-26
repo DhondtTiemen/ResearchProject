@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { ConfigService } from '../../services/config.service'
 
 import { IAlbum } from '../../interfaces/album'
+import { AlanService } from 'src/app/services/alan.service'
 
 @Component({
   selector: 'search-page',
@@ -10,6 +11,7 @@ import { IAlbum } from '../../interfaces/album'
 })
 export class SearchPageComponent implements OnInit {
   private _albumsFilter: string = ''
+
   get albumsFilter(): string {
     return this._albumsFilter
   }
@@ -19,8 +21,12 @@ export class SearchPageComponent implements OnInit {
     console.log(this.filteredAlbums)
   }
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly alanService: AlanService,
+  ) {}
 
+  searchedByVoice: IAlbum[] = []
   filteredAlbums: IAlbum[] = []
   allAlbums: IAlbum[] = []
 
@@ -36,12 +42,17 @@ export class SearchPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.configService.getAlbums().subscribe({
-      next: (allAlbums) => {
-        this.allAlbums = allAlbums
-        this.filteredAlbums = this.allAlbums
-      },
-      error: (err) => (this.errorMessage = err),
-    })
+    this.searchedByVoice = this.alanService.getSearchedAlbums()
+    console.log(this.searchedByVoice)
+
+    if (this.searchedByVoice.length == 0) {
+      this.configService.getAlbums().subscribe({
+        next: (allAlbums) => {
+          this.allAlbums = allAlbums
+          this.filteredAlbums = this.allAlbums
+        },
+        error: (err) => (this.errorMessage = err),
+      })
+    }
   }
 }

@@ -22,7 +22,7 @@ export class AlbumService {
   findAlbumById(albumId: number): Promise<Album> {
     return this.albumRepository.findOne({
       where: { albumId: albumId },
-      relations: ['tracks', 'genres'],
+      relations: ['tracks', 'genres', 'artist', 'orders', 'users'],
     })
   }
 
@@ -110,18 +110,20 @@ export class AlbumService {
     return this.albumRepository.save(newAlbum)
   }
 
-  async updateAlbum(updateAlbumDto: UpdateAlbumDto) {
-    const update = new Album()
-    update.albumId = updateAlbumDto.albumId
-    update.title = updateAlbumDto.title
-    update.price = updateAlbumDto.price
+  async updateAlbum(updateAlbumDto: UpdateAlbumDto): Promise<Album> {
+    // const update = new Album()
+    // update.albumId = updateAlbumDto.albumId
+    // update.title = updateAlbumDto.title
+    // update.price = updateAlbumDto.price
 
-    const artistId = updateAlbumDto.artistId
-    const artist = await this.artistRepository.findOneBy({ artistId })
+    // const artistId = updateAlbumDto.artistId
+    // const artist = await this.artistRepository.findOneBy({ artistId })
+
+    // console.log(updateAlbumDto)
 
     const updateAlbum = this.albumRepository.create({
       ...updateAlbumDto,
-      artist,
+      // artist,
     })
     return this.albumRepository.save(updateAlbum)
   }

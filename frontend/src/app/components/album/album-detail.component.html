@@ -1,0 +1,128 @@
+<div *ngIf="album" class="px-6 pb-8 sm:grid sm:grid-cols-2 md:px-8">
+  <div class="flex items-center justify-between">
+    <lucide-icon
+      (click)="onBackBtnClick()"
+      name="chevron-left"
+      class="text-alpha mb-4 h-6 cursor-pointer"
+    ></lucide-icon>
+    <lucide-icon
+      (click)="onFavoriteBtnClick(album.albumId)"
+      name="heart"
+      class="text-alpha mb-4 h-6 cursor-pointer"
+    ></lucide-icon>
+  </div>
+  <div class="relative mx-auto mb-8 h-auto w-4/6">
+    <img
+      src="{{ album.image }}"
+      alt="{{ album.title }} cover"
+      class="absolute h-full w-full object-cover shadow-md blur-xl"
+    />
+    <img
+      src="{{ album.image }}"
+      alt="{{ album.title }} cover"
+      class="relative h-full w-full object-cover shadow-md"
+    />
+  </div>
+  <div class="mb-6">
+    <div>
+      <h2 class="text-alpha mb-2 max-w-xs text-2xl font-bold">
+        {{ album.title }}
+      </h2>
+      <h3
+        class="border-alpha mb-2 cursor-pointer border-b-2 pb-2 text-xl opacity-60 hover:underline"
+      >
+        {{ album.artist.artistName }}
+      </h3>
+      <h3 class="mb-2 text-xl font-medium tracking-wide opacity-60">
+        € {{ album.price }}
+      </h3>
+      <p
+        *ngIf="album.stock > 5"
+        class="flex items-center justify-start gap-2 text-base opacity-60"
+      >
+        <span class="inline-block h-3 w-3 rounded-full bg-green-700"></span>
+        In stock:
+        {{ album.stock }}
+      </p>
+      <p
+        *ngIf="album.stock > 0 && 5 > album.stock"
+        class="flex items-center justify-start gap-2 text-base opacity-60"
+      >
+        <span class="inline-block h-3 w-3 rounded-full bg-orange-400"></span>
+        In stock:
+        {{ album.stock }}
+      </p>
+      <p
+        *ngIf="0 >= album.stock"
+        class="flex items-center justify-start gap-2 text-base opacity-60"
+      >
+        <span
+          class="bg-red-70000 inline-block h-3 w-3 rounded-full bg-red-700"
+        ></span>
+        Out of stock
+      </p>
+    </div>
+  </div>
+  <button
+    *ngIf="album.stock > 0"
+    (click)="onCheckOutBtnClick(album.albumId)"
+    class="bg-alpha  border-alpha mb-6 w-full px-2 py-4 font-medium text-white  {{
+      album.stock <= 0
+        ? 'cursor-not-allowed opacity-50'
+        : 'hover:border-2 hover:text-alpha hover:bg-white'
+    }}"
+  >
+    Add to cart
+  </button>
+  <p
+    class="mb-6 opacity-60 {{
+      (album.releaseDate | convertToDateCounter) >= 0 ? 'block' : 'hidden'
+    }}"
+  >
+    Release date: {{ album.releaseDate | convertToLongDate }}
+  </p>
+  <div class="mb-6">
+    {{ album.description }}
+  </div>
+  <div class="mb-6">
+    <h3 class="mb-4 text-xl font-bold">Tracklist</h3>
+    <div *ngFor="let track of album.tracks">
+      <p class="mb-2 opacity-60">{{ track.trackNumber }}. {{ track.title }}</p>
+    </div>
+  </div>
+  <div *ngIf="artist">
+    <h3 class="mb-4 text-xl font-bold">
+      More by {{ album.artist.artistName }}
+    </h3>
+    <div class="grid grid-cols-2 gap-2">
+      <div
+        *ngFor="let album of artist.albums"
+        (click)="onAlbumClick(album.albumId)"
+        class="cursor-pointer hover:bg-neutral-200"
+      >
+        <div class="relative">
+          <img
+            class="mb-2 shadow-md"
+            src="{{ album.image }}"
+            alt="{{ album.title + 'cover' }}"
+          />
+          <p
+            class="{{
+              (album.releaseDate | convertToDateCounter) >= 0
+                ? 'absolute top-0 left-0 bg-neutral-800 bg-opacity-80 py-1 px-2 text-white'
+                : 'hidden'
+            }}"
+          >
+            {{ album.releaseDate | convertToDateCounter }} days
+          </p>
+        </div>
+        <div class="px-2 py-4">
+          <p class="text-sm opacity-60">
+            {{ artist.artistName }}
+          </p>
+          <p class="font-medium hover:underline">{{ album.title }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

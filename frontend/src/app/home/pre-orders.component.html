@@ -1,8 +1,0 @@
-<div *ngIf="preOrders.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 pb-8">
-    <div *ngFor="let preOrder of preOrders">
-        <img class="shadow-md hover:opacity-25 mb-2" src="{{ preOrder.image }}" alt="{{ preOrder.title + 'cover'}}">
-        <p class="opacity-60 text-sm">{{ preOrder.artist }}</p>
-        <p>{{ preOrder.title }}</p>
-        <p>{{ preOrder.price | currency:'EUR':'symbol':'1.2-2'}}</p>
-    </div>
-</div>
