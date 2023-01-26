@@ -14,10 +14,14 @@
     />
     <div class="flex w-full items-center justify-between">
       <div>
-        <p>{{ album.title }}</p>
+        <p class="max-w-xs">{{ album.title }}</p>
         <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
       </div>
-      <lucide-icon name="heart" class="mr-2 opacity-60"></lucide-icon>
+      <lucide-icon
+        (click)="onFavoriteBtnClick(album.albumId)"
+        name="heart"
+        class="mr-2 cursor-pointer opacity-60"
+      ></lucide-icon>
     </div>
   </div>
 </div>

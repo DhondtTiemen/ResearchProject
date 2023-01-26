@@ -6,6 +6,8 @@ import { Observable, catchError, tap, throwError } from 'rxjs'
 import { IAlbum } from '../interfaces/album'
 import { IArtist } from '../interfaces/artist'
 import { IGenre } from '../interfaces/genre'
+import { IOrder } from '../interfaces/order'
+import { IUser } from '../interfaces/user'
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,22 @@ export class ConfigService {
     )
   }
 
+  getAlbumByAlbumId(albumId: number): Observable<IAlbum> {
+    return this.http
+      .get<IAlbum>(this.basicUrl + `album/albumId/${albumId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
+  }
+
+  updateAlbum(album: IAlbum): Observable<IAlbum> {
+    return this.http.put<IAlbum>(this.basicUrl + `album`, album).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
   getGenres(): Observable<IGenre[]> {
     return this.http.get<IGenre[]>(this.basicUrl + 'genre').pipe(
       tap((data) => JSON.stringify(data)),
@@ -29,13 +47,101 @@ export class ConfigService {
     )
   }
 
-  getArtistById(artistId: number): Observable<IArtist> {
+  getGenreById(genreId: number): Observable<IGenre> {
     return this.http
-      .get<IArtist>(this.basicUrl + `artist/artistId/${artistId}`)
+      .get<IGenre>(this.basicUrl + `genre/genreId/${genreId}`)
       .pipe(
         tap((data) => JSON.stringify(data)),
         catchError(this.handleError),
       )
+  }
+
+  getArtistById(artistId: number): Observable<IArtist> {
+    return this.http.get<IArtist>(this.basicUrl + `artist/${artistId}`).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  createOrder(): Observable<IOrder> {
+    let order = {
+      totalPrice: 0,
+      complete: false,
+      userUserId: 1,
+    }
+    return this.http.post<IOrder>(this.basicUrl + `order`, order).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  completeOrder(orderId: number): Observable<IOrder> {
+    let todayDate = new Date().toISOString()
+    todayDate = todayDate.substring(0, 10).toString()
+    // console.log(todayDate)
+
+    let order = {
+      orderId: orderId,
+      orderDate: todayDate,
+      complete: true,
+    }
+    return this.http.put<IOrder>(this.basicUrl + `order`, order).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  addAlbumToOrder(orderId: number, albumId: number): Observable<IOrder> {
+    let addedAlbum: IAlbum | undefined = undefined
+    let errorMessage = ''
+
+    this.getAlbumByAlbumId(albumId).subscribe({
+      next: (data) => {
+        addedAlbum = data
+      },
+      error: (err) => (errorMessage = err),
+    })
+
+    let order = {
+      orderId: orderId,
+      totalPrice: 0,
+      complete: false,
+      userUserId: 1,
+      albums: [
+        {
+          addedAlbum,
+        },
+      ],
+    }
+    return this.http.post<IOrder>(this.basicUrl + `order`, order).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  getNotCompletedOrdersByUserId(userId: number): Observable<IUser> {
+    return this.http
+      .get<IUser>(this.basicUrl + `user/notCompleted/${userId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
+  }
+
+  getCompletedOrdersByUserId(userId: number): Observable<IUser> {
+    return this.http
+      .get<IUser>(this.basicUrl + `user/completed/${userId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
+  }
+
+  getFavoritesByUserId(userId: number): Observable<IUser> {
+    return this.http.get<IUser>(this.basicUrl + `user/userId/${userId}`).pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

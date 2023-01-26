@@ -7,7 +7,6 @@ import { AppComponent } from './app.component'
 import { AppNavigationComponent } from './components/generic/app-navigation.component'
 import { SubTitle } from './components/generic/subtitle.component'
 import { GenresComponent } from './components/genre/genres.component'
-import { PreOrderComponent } from './home/pre-orders.component'
 import { SearchPageComponent } from './screens/search'
 import { ConvertToLongDatePipe } from './pipes/convert-to-date.pipe'
 import { AppHolder } from './components/holders/app-holder.component'
@@ -25,6 +24,8 @@ import {
   Search,
   ShoppingBag,
   User,
+  ChevronLeft,
+  Trash2,
 } from 'lucide-angular'
 import { LogoComponent } from './components/generic/logo.component'
 import { HomePageComponent } from './screens/home'
@@ -32,6 +33,10 @@ import { FavoritesPageComponent } from './screens/favorites'
 import { UserPageComponent } from './screens/user'
 import { CartPageComponent } from './screens/cart'
 import { AlbumsFavorites } from './components/album/albums-list.component'
+import { AlbumDetailGuard } from './components/album/guards/album-detail.guard'
+import { GenreDetailComponent } from './components/genre/genre-detail.component'
+import { AlbumsCart } from './components/album/albums-cart.component'
+import { OrdersCompleted } from './components/order/orders-list.component'
 
 @NgModule({
   declarations: [
@@ -47,9 +52,10 @@ import { AlbumsFavorites } from './components/album/albums-list.component'
     AlbumsMain,
     AlbumsSub,
     AlbumsFavorites,
-    GenresComponent,
+    AlbumsCart,
 
-    PreOrderComponent,
+    GenresComponent,
+    GenreDetailComponent,
 
     HomePageComponent,
     FavoritesPageComponent,
@@ -57,6 +63,8 @@ import { AlbumsFavorites } from './components/album/albums-list.component'
     AlbumDetailComponent,
     CartPageComponent,
     UserPageComponent,
+
+    OrdersCompleted,
 
     ConvertToLongDatePipe,
     ConvertToDateCounter,
@@ -69,13 +77,29 @@ import { AlbumsFavorites } from './components/album/albums-list.component'
       { path: '', component: HomePageComponent },
       { path: 'favorites', component: FavoritesPageComponent },
       { path: 'albums', component: SearchPageComponent },
-      { path: 'albums/:id', component: AlbumDetailComponent },
+      {
+        path: 'albums/:id',
+        canActivate: [AlbumDetailGuard],
+        component: AlbumDetailComponent,
+      },
+      {
+        path: 'genre/:id',
+        component: GenreDetailComponent,
+      },
       { path: 'cart', component: CartPageComponent },
       { path: 'user', component: UserPageComponent },
 
       { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]),
-    LucideAngularModule.pick({ Home, Heart, Search, ShoppingBag, User }),
+    LucideAngularModule.pick({
+      Home,
+      Heart,
+      Search,
+      ShoppingBag,
+      User,
+      ChevronLeft,
+      Trash2,
+    }),
   ],
   bootstrap: [AppComponent],
 })

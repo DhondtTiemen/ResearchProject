@@ -8,9 +8,21 @@ import { User } from './entities/user.entity'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':userId')
+  @Get('userId/:userId')
   getUserById(@Param('userId') userId: number): Promise<User> {
     return this.userService.findUserById(userId)
+  }
+
+  @Get('notCompleted/:userId')
+  getNotCompletedOrdersByUserId(
+    @Param('userId') userId: number,
+  ): Promise<User> {
+    return this.userService.findNotCompletedOrdersByUserId(userId)
+  }
+
+  @Get('completed/:userId')
+  getCompletedOrdersByUserId(@Param('userId') userId: number): Promise<User> {
+    return this.userService.findCompletedOrdersByUserId(userId)
   }
 
   @Get()

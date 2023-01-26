@@ -13,6 +13,7 @@ import { Artist } from 'src/artist/entities/artist.entity'
 import { Genre } from 'src/genre/entities/genre.entity'
 import { Track } from 'src/track/entities/track.entity'
 import { Order } from 'src/order/entities/order.entity'
+import { User } from 'src/user/entities/user.entity'
 
 @Entity({ name: 'album' })
 export class Album {
@@ -52,6 +53,10 @@ export class Album {
   @ManyToMany(() => Genre, (genre: Genre) => genre.albums)
   @JoinTable()
   genres: Genre[]
+
+  @ManyToMany(() => User, (user: User) => user.favorites)
+  @JoinTable()
+  users: User[]
 
   @ManyToMany(() => Order, (order: Order) => order.albums)
   @JoinTable()

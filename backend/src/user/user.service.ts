@@ -15,12 +15,56 @@ export class UserService {
   findUserById(userId: number): Promise<User> {
     return this.userRepository.findOne({
       where: { userId: userId },
-      relations: ['orders'],
+      relations: ['orders', 'favorites', 'favorites.artist'],
     })
   }
 
+  async findNotCompletedOrdersByUserId(input: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { userId: input },
+      relations: [
+        'orders',
+        'favorites',
+        'orders.albums',
+        'orders.albums.artist',
+      ],
+    })
+
+    let orderList = []
+    for (let order of user.orders) {
+      if (!order.complete) {
+        orderList.push(order)
+      }
+    }
+
+    user.orders = orderList
+    return user
+  }
+
+  async findCompletedOrdersByUserId(input: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { userId: input },
+      relations: [
+        'orders',
+        'favorites',
+        'orders.albums',
+        'orders.albums.artist',
+      ],
+    })
+
+    let orderList = []
+    for (let order of user.orders) {
+      if (order.complete) {
+        orderList.push(order)
+      }
+    }
+
+    user.orders = orderList
+    return user
+  }
+
   findUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['orders'] })
+    return this.userRepository.find({ relations: ['orders', 'favorites'] })
   }
 
   createUser(createUserDto: CreateUserDto): Promise<User> {

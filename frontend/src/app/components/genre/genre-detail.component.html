@@ -1,0 +1,43 @@
+<div *ngIf="genre">
+  <div class="px-6 md:px-8">
+    <lucide-icon
+      (click)="onBackBtnClick()"
+      name="chevron-left"
+      class="text-alpha mb-4 h-6 cursor-pointer"
+    ></lucide-icon>
+  </div>
+  <sub-title [subTitle]="genre.name"></sub-title>
+  <div
+    *ngIf="genre.albums.length"
+    class="grid grid-cols-2 gap-2 px-6 pb-8 md:grid-cols-3 md:px-8 lg:grid-cols-4 lg:gap-4"
+  >
+    <div
+      *ngFor="let album of genre.albums"
+      [routerLink]="['/albums', album.albumId]"
+      class="cursor-pointer hover:bg-neutral-200"
+    >
+      <div class="relative">
+        <img
+          class="mb-2 shadow-md"
+          src="{{ album.image }}"
+          alt="{{ album.title + 'cover' }}"
+        />
+        <p
+          class="{{
+            (album.releaseDate | convertToDateCounter) >= 0
+              ? 'absolute top-0 left-0 bg-neutral-800 bg-opacity-80 py-1 px-2 text-white'
+              : 'hidden'
+          }}"
+        >
+          {{ album.releaseDate | convertToDateCounter }} days
+        </p>
+      </div>
+      <div class="px-2 py-4">
+        <p class="text-sm opacity-60">
+          {{ album.artist.artistName }}
+        </p>
+        <p class="font-medium hover:underline">{{ album.title }}</p>
+      </div>
+    </div>
+  </div>
+</div>

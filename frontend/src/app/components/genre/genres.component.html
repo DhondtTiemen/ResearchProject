@@ -1,8 +1,24 @@
-<ul *ngIf="genres.length" class="flex items-center justify-start gap-2 pb-8 px-6 md:px-8 overflow-x-auto" >
-    <li class="flex  shrink-0" *ngFor="let genre of genres">
-        <div class="bg-neutral-700 h-36 w-full mb-2 relative">
-            <img class="shadow-md opacity-50 h-full w-full object-cover" src="{{ genre.image }}" alt="{{ genre.name }}">
-            <p class="absolute left-4 bottom-4 text-white text-2xl font-bold">{{ genre.name }}</p>
-        </div>
-    </li>
+<ul
+  *ngIf="genres.length"
+  class="flex items-center justify-start gap-2 overflow-x-auto px-6 pb-8 md:px-8"
+>
+  <li class="flex shrink-0" *ngFor="let genre of genres">
+    <div
+      [routerLink]="['/genre', genre.genreId]"
+      class="from-alpha to-alpha group relative mb-2 h-36 w-full cursor-pointer bg-gradient-to-t transition"
+    >
+      <div class="relative h-full w-full">
+        <img
+          class="group/image h-full w-full object-cover shadow-md group-hover:opacity-20"
+          src="{{ genre.image }}"
+          alt="{{ genre.name }}"
+        />
+        <p
+          class="absolute left-4 bottom-4 text-2xl font-bold text-white group-hover:opacity-100"
+        >
+          {{ genre.name }}
+        </p>
+      </div>
+    </div>
+  </li>
 </ul>

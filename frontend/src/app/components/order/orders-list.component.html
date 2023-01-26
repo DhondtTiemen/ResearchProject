@@ -1,0 +1,39 @@
+<div
+  *ngIf="completedOrders.length"
+  class="px-6 pb-8 sm:grid sm:grid-cols-2 md:px-8"
+>
+  <div *ngFor="let order of completedOrders" class="mb-4">
+    <div
+      class="mb-2 flex items-center justify-between border-b-2 border-opacity-60"
+    >
+      <p class="text-xs opacity-60">
+        {{ order.orderDate.toString() | convertToLongDate }} | ordernummer:
+        {{ order.orderId }}
+      </p>
+      <p class="text-base font-bold opacity-60">€ {{ order.totalPrice }}</p>
+    </div>
+    <div *ngFor="let album of order.albums">
+      <div class="mb-2 flex items-center justify-between gap-4">
+        <div class="w-1/2">
+          <img
+            class="shadow-md"
+            [src]="album.image"
+            [alt]="album.title + ' cover'"
+            [title]="album.title + ' cover'"
+          />
+        </div>
+        <div class="w-full">
+          <p class="text-sm opacity-60">
+            {{ album.artist.artistName }}
+          </p>
+          <p class="font-medium">{{ album.title }}</p>
+          <p>€ {{ album.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!completedOrders.length" class="px-6 md:px-8">
+  <p>You don't have orders... 🥲</p>
+</div>

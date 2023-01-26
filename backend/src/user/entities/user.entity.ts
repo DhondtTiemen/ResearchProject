@@ -1,6 +1,14 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import { Order } from 'src/order/entities/order.entity'
+import { Album } from 'src/album/entities/album.entity'
 
 @Entity({ name: 'user' })
 export class User {
@@ -12,6 +20,10 @@ export class User {
 
   @Column({ type: 'int', name: 'ordersCount', nullable: true })
   ordersCount: number
+
+  @ManyToMany(() => Album, (album: Album) => album.users)
+  @JoinTable()
+  favorites: Album[]
 
   @OneToMany(() => Order, (order: Order) => order.user)
   orders: Order[]
