@@ -36,6 +36,7 @@ export class ArtistService {
   async findArtistsByPopular(): Promise<Artist[]> {
     const artists = await this.artistRepository
       .createQueryBuilder('artist')
+      .innerJoin('artist.albums', 'albums')
       .select([
         'artist.artistId',
         'artist.artistName',
@@ -45,6 +46,8 @@ export class ArtistService {
         'artist.description',
         'artist.birthDate',
         'artist.popular',
+        'albums.albumId',
+        'albums.title',
       ])
       .where('artist.popular = :boolean', { boolean: true })
       .getMany()

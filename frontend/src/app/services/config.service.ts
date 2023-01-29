@@ -13,7 +13,8 @@ import { IUser } from '../interfaces/user'
   providedIn: 'root',
 })
 export class ConfigService {
-  private basicUrl = 'http://localhost:3003/'
+  private basicUrl =
+    'https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io/'
 
   constructor(private http: HttpClient) {}
 
@@ -91,10 +92,12 @@ export class ConfigService {
   }
 
   getArtistById(artistId: number): Observable<IArtist> {
-    return this.http.get<IArtist>(this.basicUrl + `artist/${artistId}`).pipe(
-      tap((data) => JSON.stringify(data)),
-      catchError(this.handleError),
-    )
+    return this.http
+      .get<IArtist>(this.basicUrl + `artist/artistId/${artistId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
   }
 
   createOrder(): Observable<IOrder> {

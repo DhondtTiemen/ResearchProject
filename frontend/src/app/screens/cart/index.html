@@ -1,4 +1,41 @@
-<div>
-  <sub-title [subTitle]="'Shopping bag'"></sub-title>
-  <albums-cart></albums-cart>
+<!------------- CART PAGE ------------->
+<app-header></app-header>
+
+<!-- ITEMS -->
+<sub-title [subTitle]="'Shopping bag'"></sub-title>
+<div *ngIf="cartAlbums.length" class="px-6 pb-8 sm:grid sm:grid-cols-2 md:px-8">
+  <div
+    *ngFor="let album of cartAlbums"
+    class="flex h-32 items-center justify-between gap-4"
+  >
+    <img
+      class="h-3/4 shadow-md hover:opacity-25"
+      [src]="album.image"
+      [alt]="album.title + ' cover'"
+      [title]="album.title + ' cover'"
+    />
+    <div class="flex w-full items-center justify-between">
+      <div>
+        <p>{{ album.title }}</p>
+        <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
+      </div>
+      <lucide-icon
+        (click)="onRemoveBtnClick(album.albumId)"
+        name="trash-2"
+        class="cursor-pointer opacity-60"
+      ></lucide-icon>
+    </div>
+  </div>
+  <button
+    (click)="onCheckOutBtnClick(orderId)"
+    class="bg-alpha hover:text-alpha border-alpha mb-6 w-full px-2 py-4 font-medium text-white hover:border-2 hover:bg-white"
+  >
+    Checkout
+  </button>
 </div>
+
+<div *ngIf="!cartAlbums.length" class="px-6 md:px-8">
+  <p>Your shopping bag is empty... 🥲</p>
+</div>
+
+<app-footer></app-footer>

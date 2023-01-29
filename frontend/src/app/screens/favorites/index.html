@@ -1,4 +1,49 @@
-<div>
-  <sub-title [subTitle]="'Wishlist'"></sub-title>
-  <albums-list></albums-list>
+<!------------- FAVORITES PAGE ------------->
+
+<!-- LOADING -->
+<div *ngIf="!loaded" class="flex h-screen w-screen items-center justify-center">
+  <div class="text-center">
+    <logo></logo>
+    <lucide-icon
+      name="loader-2"
+      class="text-alpha mt-6 h-9 w-9 animate-spin"
+    ></lucide-icon>
+  </div>
+</div>
+
+<!-- LOADED -->
+<div *ngIf="loaded">
+  <app-header></app-header>
+
+  <!-- ITEMS -->
+  <sub-title [subTitle]="'Favorites'"></sub-title>
+  <div
+    *ngIf="favoriteAlbums.length"
+    class="gap-4 px-6 pb-8 sm:grid sm:grid-cols-2 md:gap-6 md:px-8"
+  >
+    <div
+      *ngFor="let album of favoriteAlbums"
+      class="flex h-32 items-center justify-between gap-4"
+    >
+      <img
+        class="h-3/4 shadow-md hover:opacity-25"
+        [src]="album.image"
+        [alt]="album.title + ' cover'"
+        [title]="album.title + ' cover'"
+      />
+      <div class="flex w-full items-center justify-between">
+        <div>
+          <p class="max-w-xs">{{ album.title }}</p>
+          <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
+        </div>
+        <lucide-icon
+          (click)="onFavoriteBtnClick(album.albumId)"
+          name="heart"
+          class="mr-2 cursor-pointer opacity-60"
+        ></lucide-icon>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
 </div>
