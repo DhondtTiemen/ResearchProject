@@ -37,6 +37,7 @@ export class AlbumService {
         'album.releaseDate',
         'album.popular',
         'album.image',
+        'album.description',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
@@ -56,6 +57,7 @@ export class AlbumService {
         'album.releaseDate',
         'album.popular',
         'album.image',
+        'artist.artistId',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
@@ -75,12 +77,36 @@ export class AlbumService {
         'album.releaseDate',
         'album.popular',
         'album.image',
+        'artist.artistId',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
       ])
       .where('album.popular = :boolean', { boolean: true })
       .getMany()
+    return albums
+  }
+
+  async findAlbumByPreOrder(): Promise<Album[]> {
+    const albums = await this.albumRepository
+      .createQueryBuilder('album')
+      .innerJoin('album.artist', 'artist')
+      .select([
+        'album.albumId',
+        'album.title',
+        'album.releaseDate',
+        'album.popular',
+        'album.image',
+        'artist.artistId',
+        'artist.artistName',
+        'artist.firstName',
+        'artist.lastName',
+      ])
+      .where('album.releaseDate >= :today', {
+        today: new Date().toISOString().substring(0, 10),
+      })
+      .getMany()
+
     return albums
   }
 

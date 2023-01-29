@@ -1,0 +1,38 @@
+<!-- LOADING -->
+<div *ngIf="!loaded" class="flex h-screen w-screen items-center justify-center">
+  <div class="text-center">
+    <logo></logo>
+    <lucide-icon
+      name="loader-2"
+      class="text-alpha mt-6 h-9 w-9 animate-spin"
+    ></lucide-icon>
+  </div>
+</div>
+
+<!-- LOADED -->
+<div *ngIf="loaded" class="flex h-screen items-center justify-center">
+  <main>
+    <header class="px-4 py-6 text-center">
+      <logo></logo>
+    </header>
+
+    <!-- ALL ALBUMS BY FILTER -->
+    <div
+      *ngIf="albums.length"
+      class="grid grid-cols-2 gap-2 px-6 pb-8 md:grid-cols-3 md:px-8 lg:grid-cols-4 lg:gap-4"
+    >
+      <div *ngFor="let album of albums">
+        <div class="relative">
+          <img
+            class="mb-2 shadow-md"
+            src="{{ album.image }}"
+            alt="{{ album.title + 'cover' }}"
+          />
+        </div>
+        <!-- <p class="text-sm opacity-60">{{ album.artist.artistName }}</p> -->
+        <p>{{ album.title }}</p>
+        <p>{{ album.price }}</p>
+      </div>
+    </div>
+  </main>
+</div>

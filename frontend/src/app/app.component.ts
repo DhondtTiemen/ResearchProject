@@ -3,7 +3,7 @@ import { AlanService } from './services/alan.service'
 
 @Component({
   selector: 'pm-root',
-  template: `<app-holder></app-holder>`,
+  template: `<voice-app-holder></voice-app-holder>`,
 })
 export class AppComponent {
   pageTitle: string = 'Elpee'

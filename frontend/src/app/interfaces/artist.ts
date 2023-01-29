@@ -5,8 +5,8 @@ export interface IArtist {
   artistName: string
   firstName: string
   lastName: string
-  birthDate: Date
-  description: string
+  // birthDate: Date
+  // description: string
   image: string
   albums: IAlbum[]
 }

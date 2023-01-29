@@ -17,9 +17,13 @@
           alt="{{ album.title + 'cover' }}"
         />
       </div>
-      <p class="text-sm opacity-60">Harry Styles</p>
+      <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
       <p>{{ album.title }}</p>
       <p>{{ album.price }}</p>
     </div>
   </div>
 </div>
+
+<!-- <div *ngIf="searchedByVoiceAlbums">
+    <div *ngFor="let album of searchedByVoiceAlbums">{{ album.title }}</div>
+  </div> -->

@@ -17,8 +17,33 @@ export class ConfigService {
 
   constructor(private http: HttpClient) {}
 
+  // GET ALL ALBUMS
   getAlbums(): Observable<IAlbum[]> {
     return this.http.get<IAlbum[]>(this.basicUrl + 'album').pipe(
+      tap((data) => JSON.stringify(data)),
+      catchError(this.handleError),
+    )
+  }
+
+  // GET POPULAR ALBUMS
+  getPopularAlbums(): Observable<IAlbum[]> {
+    return this.http.get<IAlbum[]>(this.basicUrl + `album/popular`).pipe(
+      tap((data) =>
+        JSON.stringify(
+          data.sort(
+            (a, b) =>
+              new Date(b.releaseDate).getTime() -
+              new Date(a.releaseDate).getTime(),
+          ),
+        ),
+      ),
+      catchError(this.handleError),
+    )
+  }
+
+  // GET PRE-ORDER ALBUMS
+  getPreOrderAlbums(): Observable<IAlbum[]> {
+    return this.http.get<IAlbum[]>(this.basicUrl + `album/preorder`).pipe(
       tap((data) => JSON.stringify(data)),
       catchError(this.handleError),
     )
@@ -50,6 +75,15 @@ export class ConfigService {
   getGenreById(genreId: number): Observable<IGenre> {
     return this.http
       .get<IGenre>(this.basicUrl + `genre/genreId/${genreId}`)
+      .pipe(
+        tap((data) => JSON.stringify(data)),
+        catchError(this.handleError),
+      )
+  }
+
+  getGenreByName(genreName: string): Observable<IGenre> {
+    return this.http
+      .get<IGenre>(this.basicUrl + `genre/genreName/${genreName}`)
       .pipe(
         tap((data) => JSON.stringify(data)),
         catchError(this.handleError),

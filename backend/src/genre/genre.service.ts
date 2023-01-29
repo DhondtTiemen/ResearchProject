@@ -28,7 +28,7 @@ export class GenreService {
   findGenreByGenreName(genreName: string): Promise<Genre> {
     return this.genreRepository.findOne({
       where: { name: genreName },
-      relations: ['albums'],
+      relations: ['albums', 'albums.artist'],
     })
   }
 
