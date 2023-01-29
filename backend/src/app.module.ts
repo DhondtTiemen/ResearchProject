@@ -18,8 +18,8 @@ import { UserModule } from './user/user.module'
 
     ArtistModule,
     AlbumModule,
-    TrackModule,
     GenreModule,
+    TrackModule,
     OrderModule,
     UserModule,
   ],

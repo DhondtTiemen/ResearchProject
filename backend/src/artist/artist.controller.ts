@@ -2,6 +2,7 @@ import { Controller, Body, Param, Get, Post, Put, Delete } from '@nestjs/common'
 
 import { Artist } from './entities/artist.entity'
 import { ArtistService } from './artist.service'
+
 import { CreateArtistDto } from './dto/create-artist.dto'
 import { UpdateArtistDto } from './dto/update-artist.dto'
 
@@ -9,7 +10,7 @@ import { UpdateArtistDto } from './dto/update-artist.dto'
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @Get(':artistId')
+  @Get('artistId/:artistId')
   getArtistById(@Param('artistId') artistId: number): Promise<Artist> {
     return this.artistService.findArtistById(artistId)
   }
@@ -21,19 +22,14 @@ export class ArtistController {
     return this.artistService.findArtistByArtistName(artistName)
   }
 
-  @Get('firstName/:firstName')
-  getArtistByFirstName(@Param('firstName') firstName: string): Promise<Artist> {
-    return this.artistService.findArtistByFirstName(firstName)
-  }
-
-  @Get('lastName/:lastName')
-  getArtistByLastName(@Param('lastName') lastName: string): Promise<Artist> {
-    return this.artistService.findArtistByLastName(lastName)
-  }
-
   @Get()
   getArtists(): Promise<Artist[]> {
     return this.artistService.findArtists()
+  }
+
+  @Get('popular')
+  getArtistByPopular(): Promise<Artist[]> {
+    return this.artistService.findArtistsByPopular()
   }
 
   @Post()

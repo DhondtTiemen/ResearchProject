@@ -17,7 +17,7 @@ export class ArtistService {
   findArtistById(artistId: number): Promise<Artist> {
     return this.artistRepository.findOne({
       where: { artistId: artistId },
-      relations: ['albums', 'albums.artist'],
+      relations: ['albums'],
     })
   }
 
@@ -29,22 +29,26 @@ export class ArtistService {
     })
   }
 
-  findArtistByFirstName(firstName: string): Promise<Artist> {
-    return this.artistRepository.findOne({
-      where: { firstName: firstName },
-      relations: ['albums'],
-    })
-  }
-
-  findArtistByLastName(lastName: string): Promise<Artist> {
-    return this.artistRepository.findOne({
-      where: { lastName: lastName },
-      relations: ['albums'],
-    })
-  }
-
   findArtists(): Promise<Artist[]> {
     return this.artistRepository.find({ relations: ['albums'] })
+  }
+
+  async findArtistsByPopular(): Promise<Artist[]> {
+    const artists = await this.artistRepository
+      .createQueryBuilder('artist')
+      .select([
+        'artist.artistId',
+        'artist.artistName',
+        'artist.firstName',
+        'artist.lastName',
+        'artist.image',
+        'artist.description',
+        'artist.birthDate',
+        'artist.popular',
+      ])
+      .where('artist.popular = :boolean', { boolean: true })
+      .getMany()
+    return artists
   }
 
   createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {

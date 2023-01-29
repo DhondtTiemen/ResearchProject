@@ -46,7 +46,6 @@ export class SearchPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchedByVoiceArtist = this.alanService.getSearchedArtist()
     // this.searchedByVoiceAlbums = this.alanService.getSearchedAlbums()
 
     if (this.searchedByVoiceArtist.length == 0) {

@@ -1,0 +1,28 @@
+<!-- LOADING -->
+<div *ngIf="!loaded" class="flex h-screen w-screen items-center justify-center">
+  <div class="text-center">
+    <logo></logo>
+    <lucide-icon
+      name="loader-2"
+      class="text-alpha mt-6 h-9 w-9 animate-spin"
+    ></lucide-icon>
+  </div>
+</div>
+
+<!-- LOADED -->
+<div *ngIf="loaded" class="flex h-screen items-center justify-center">
+  <main>
+    <header class="px-4 py-6 text-center">
+      <logo></logo>
+    </header>
+
+    <!-- ALL ORDERS -->
+    <div *ngIf="orders.length" class="container mx-auto">
+      <ul class="flex items-center justify-center overflow-x-auto">
+        <li *ngFor="let order of orders" class="w-96 shrink-0">
+          {{ order.orderId }}
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>

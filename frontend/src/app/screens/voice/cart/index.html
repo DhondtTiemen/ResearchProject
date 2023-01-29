@@ -14,15 +14,12 @@
   <main>
     <header class="px-4 py-6 text-center">
       <logo></logo>
-      <p class="mt-8 opacity-60">
-        Click the 'mic' icon-button and say 'Hi there!' to get started!
-      </p>
     </header>
 
-    <!-- POPULAR ALBUMS -->
-    <div *ngIf="popularAlbums.length" class="container mx-auto">
+    <!-- ALL ITEMS IN CART -->
+    <div *ngIf="items.length" class="container mx-auto">
       <ul class="flex items-center justify-center overflow-x-auto">
-        <li *ngFor="let album of popularAlbums" class="w-96 shrink-0">
+        <li *ngFor="let album of items" class="w-96 shrink-0">
           <img
             class="mx-auto mb-4 h-80 w-80 object-cover shadow-md"
             [src]="album.image"
@@ -32,6 +29,9 @@
           <div class="mb-4 text-center">
             <p class="text-xl font-medium opacity-80">{{ album.title }}</p>
             <p class="text-base opacity-80">{{ album.artist.artistName }}</p>
+            <p class="mt-4 text-xl font-medium opacity-80">
+              € {{ album.price }}
+            </p>
           </div>
         </li>
       </ul>
