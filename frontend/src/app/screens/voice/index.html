@@ -14,21 +14,23 @@
   <main>
     <header class="px-4 py-6 text-center">
       <logo></logo>
-      <p class="mt-8 opacity-60">Click the 'mic' button to get started!</p>
+      <p class="mt-8 opacity-60">Click the 'mic' icon-button to get started!</p>
     </header>
 
     <!-- POPULAR ALBUMS -->
     <div *ngIf="popularAlbums.length" class="container mx-auto">
-      <ul
-        class="flex items-center justify-center gap-4 overflow-x-auto lg:gap-6"
-      >
-        <li *ngFor="let album of popularAlbums" class="h-80 w-80">
+      <ul class="flex items-center justify-center overflow-x-auto">
+        <li *ngFor="let album of popularAlbums" class="w-96 shrink-0">
           <img
-            class="h-full w-full object-cover"
+            class="mx-auto mb-4 h-80 w-80 object-cover shadow-md"
             [src]="album.image"
             [alt]="album.title + ' cover'"
             [title]="album.title + ' cover'"
           />
+          <div class="mb-4 text-center">
+            <p class="text-xl font-medium opacity-80">{{ album.title }}</p>
+            <p class="text-base opacity-80">{{ album.artist.artistName }}</p>
+          </div>
         </li>
       </ul>
     </div>

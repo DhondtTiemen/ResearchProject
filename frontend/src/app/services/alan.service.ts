@@ -128,7 +128,7 @@ export class AlanService implements OnInit {
   }
 
   initAlan() {
-    this.alanBtnInstance.playText('Welcome, what do you want to do?')
+    this.alanBtnInstance.playText('Welcome, to Elpee! What do you want to do?')
   }
 
   showArtists(artists: IArtist[]) {
@@ -154,7 +154,7 @@ export class AlanService implements OnInit {
   showAlbumTitles(albums: IAlbum[]) {
     console.log(albums)
     this.allAlbumTitles = albums
-    this.router.navigate(['voice/albums'])
+    this.router.navigate(['voice/titles'])
   }
 
   getAlbumTitles(): IAlbum[] {
