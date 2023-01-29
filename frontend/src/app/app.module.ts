@@ -45,6 +45,9 @@ import { VoiceFilterPageComponent } from './screens/voice/filter'
 import { VoiceArtistPageComponent } from './screens/voice/artist'
 import { VoiceAlbumsTitlePageComponent } from './screens/voice/title'
 import { VoiceChosenAlbumPageComponent } from './screens/voice/album/_id'
+import { VoiceFavoritesPageComponent } from './screens/voice/favorites'
+import { VoiceCartPageComponent } from './screens/voice/cart'
+import { VoiceUserPageComponent } from './screens/voice/user'
 
 @NgModule({
   declarations: [
@@ -78,7 +81,11 @@ import { VoiceChosenAlbumPageComponent } from './screens/voice/album/_id'
     ConvertToDateCounter,
 
     VoiceAppHolder,
+
     VoiceHomePageComponent,
+    VoiceFavoritesPageComponent,
+    VoiceCartPageComponent,
+    VoiceUserPageComponent,
 
     VoiceArtistPageComponent,
     VoiceGenrePageComponent,
@@ -110,6 +117,11 @@ import { VoiceChosenAlbumPageComponent } from './screens/voice/album/_id'
 
       // --- VOICE APP ---
       { path: 'voice', component: VoiceHomePageComponent },
+
+      // NAVIGATION
+      { path: 'voice/favorites', component: VoiceFavoritesPageComponent },
+      { path: 'voice/cart', component: VoiceCartPageComponent },
+      { path: 'voice/user', component: VoiceUserPageComponent },
 
       // SEARCH BY FILTER
       { path: 'voice/artists', component: VoiceArtistPageComponent },

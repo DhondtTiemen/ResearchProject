@@ -1,14 +1,13 @@
-import alanBtn from '@alan-ai/alan-sdk-web'
-
 import { Injectable, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { IAlbum } from '../interfaces/album'
-import { IArtist } from '../interfaces/artist'
-import { IGenre } from '../interfaces/genre'
-import { IOrder } from '../interfaces/order'
-import { SearchPageComponent } from '../screens/search'
+import alanBtn from '@alan-ai/alan-sdk-web'
 
 import { ConfigService } from './config.service'
+
+import { IArtist } from '../interfaces/artist'
+import { IGenre } from '../interfaces/genre'
+import { IAlbum } from '../interfaces/album'
+import { IOrder } from '../interfaces/order'
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +16,11 @@ export class AlanService implements OnInit {
   alanBtnInstance: any
 
   COMMANDS = {
+    OPEN_HOME: 'open-home',
+    OPEN_FAVORITES: 'open-favorites',
+    OPEN_CART: 'open-cart',
+    OPEN_USER: 'open-user',
+
     SHOW_ARTISTS: 'show-artists',
     SHOW_GENRES: 'show-genres',
     SHOW_ALBUMTITLES: 'show-albumTitles',
@@ -26,25 +30,22 @@ export class AlanService implements OnInit {
 
     ADD_TO_CART: 'add-to-cart',
 
-    // SEARCH_ARTIST: 'search-artist',
-    // SEARCH_GENRE: 'search-genre',
-    // SEARCH_TITLE: 'search-title',
-
-    // OPEN_HOME: 'open-home',
-    // OPEN_FAVORITES: 'open-favorites',
-    // SEARCH_ALBUM: 'search-album',
-    // SEARCH_ALBUM_BY_ARTIST: 'albums-by-artist',
-    // OPEN_CART: 'open-cart',
-    // OPEN_USER: 'open-user',
-
-    // ADD_ALBUM: 'add-album',
+    CHECKOUT: 'check-out',
   }
 
   constructor(private router: Router, private configService: ConfigService) {
     this.alanBtnInstance = alanBtn({
       key: '2149838387f2deadab532c2564554eb42e956eca572e1d8b807a3e2338fdd0dc/stage',
       onCommand: (commandData: any) => {
-        if (commandData.command == this.COMMANDS.SHOW_ARTISTS) {
+        if (commandData.command == this.COMMANDS.OPEN_HOME) {
+          this.openHome()
+        } else if (commandData.command == this.COMMANDS.OPEN_FAVORITES) {
+          this.openFavorites(commandData.allFavorites)
+        } else if (commandData.command == this.COMMANDS.OPEN_CART) {
+          this.openCart(commandData.allItems)
+        } else if (commandData.command == this.COMMANDS.OPEN_USER) {
+          this.openUser(commandData.allOrders)
+        } else if (commandData.command == this.COMMANDS.SHOW_ARTISTS) {
           this.showArtists(commandData.allArtists)
         } else if (commandData.command == this.COMMANDS.SHOW_GENRES) {
           this.showGenres(commandData.allGenres)
@@ -56,40 +57,16 @@ export class AlanService implements OnInit {
           this.showChosenAlbum(commandData.album)
         } else if (commandData.command == this.COMMANDS.ADD_TO_CART) {
           this.addToCart(commandData.orderedAlbum)
+        } else if (commandData.command == this.COMMANDS.CHECKOUT) {
+          this.checkOut(commandData.notCompletedOrder)
         }
-
-        // if (commandData.command == this.COMMANDS.SEARCH_ARTIST) {
-        //   this.searchArtist(commandData.artist)
-        // } else if (commandData.command == this.COMMANDS.SEARCH_GENRE) {
-        //   this.searchGenre(commandData.genre)
-        // }
-
-        // else if (commandData.command == this.COMMANDS.SEARCH_ALBUM) {
-        //   this.searchAlbum(commandData.album)
-        // }
-
-        // if (commandData.command == this.COMMANDS.OPEN_HOME) {
-        //   this.openHome()
-        // } else if (commandData.command == this.COMMANDS.OPEN_FAVORITES) {
-        //   this.openFavorites()
-        // } else if (commandData.command == this.COMMANDS.SEARCH_ALBUM) {
-        //   this.searchAlbum()
-        // } else if (
-        //   commandData.command == this.COMMANDS.SEARCH_ALBUM_BY_ARTIST
-        // ) {
-        //   this.searchAlbumByArtist(commandData.artist)
-        // } else if (commandData.command == this.COMMANDS.OPEN_CART) {
-        //   this.openCart()
-        // } else if (commandData.command == this.COMMANDS.OPEN_USER) {
-        //   this.openUser()
-        // }
-
-        //  else if (commandData.command == this.COMMANDS.OPEN_FAVORITES) {
-        //   this.addAlbum(commandData.payload)
-        // }
       },
     })
   }
+
+  allFavorites: IAlbum[] = []
+  allItems: IAlbum[] = []
+  allOrders: IOrder[] = []
 
   allArtists: IArtist[] = []
   allGenres: IGenre[] = []
@@ -98,38 +75,9 @@ export class AlanService implements OnInit {
   albumsByFilter: IAlbum[] = []
   albumChosen: IAlbum[] = []
 
-  albumsList: any = []
-  savedAlbums: any = []
-  savedArtist: string = ''
-
-  artist: string = ''
-  genre: string = ''
-  album: string = ''
-
-  chosenAlbumName: string = ''
-
   errorMessage = ''
 
-  ngOnInit(): void {
-    this.initAlan()
-    // this.configService.getAlbums().subscribe({
-    //   next: (data) => {
-    //     console.log(data)
-    //     data.forEach((element) => {
-    //       this.albumsList.push(
-    //         element.title.replace(/[^a-zA-Z ]/g, '') + '~' + element.albumId,
-    //       )
-    //     })
-    //     // project.albums = this.albumsList.join('|')
-    //     this.savedAlbums = data
-    //   },
-    //   error: (err) => (this.errorMessage = err),
-    // })
-  }
-
-  initAlan() {
-    this.alanBtnInstance.playText('Welcome, to Elpee! What do you want to do?')
-  }
+  ngOnInit(): void {}
 
   showArtists(artists: IArtist[]) {
     console.log(artists)
@@ -230,76 +178,51 @@ export class AlanService implements OnInit {
     })
   }
 
-  searchArtist(artist: string) {
-    this.alanBtnInstance.playText(artist)
-    this.artist = artist
+  checkOut(order: IOrder): void {
+    console.log(order)
 
-    this.router.navigate(['/voice/artist'])
-  }
-
-  searchGenre(genre: string) {
-    this.alanBtnInstance.playText(genre)
-    this.genre = genre
-
-    this.router.navigate(['/voice/genre'])
-  }
-
-  getSearchedGenre(): string {
-    return this.genre
-  }
-
-  searchAlbum(album: string) {
-    this.alanBtnInstance.playText(album)
-    this.album = album
-
-    this.router.navigate(['/voice/album'])
+    this.configService.completeOrder(order.orderId).subscribe({
+      next: (data) => {
+        console.log(data)
+      },
+      error: (err) => (this.errorMessage = err),
+    })
   }
 
   openHome() {
-    this.alanBtnInstance.playText('Opening home page')
-    this.router.navigate(['/'])
+    this.router.navigate(['voice'])
   }
 
-  openFavorites() {
-    this.alanBtnInstance.playText('Opening your favorites')
-    this.router.navigate(['favorites'])
+  openFavorites(favorites: IAlbum[]) {
+    console.log(favorites)
+    this.allFavorites = favorites
+
+    this.router.navigate(['voice/favorites'])
   }
 
-  // searchAlbum() {
-  //   this.alanBtnInstance.playText('Opening search page')
-  //   this.router.navigate(['albums'])
-  // }
-
-  async searchAlbumByArtist(artist?: any) {
-    this.alanBtnInstance.playText(
-      `Here are the albums from ${artist.artistName}`,
-    )
-
-    this.savedArtist = artist.artistName
-    this.router.navigate(['albums'])
-
-    this.savedAlbums = artist.albums
+  getFavorites(): IAlbum[] {
+    return this.allFavorites
   }
 
-  getSearchedAlbums() {
-    return this.savedAlbums
+  openCart(items: IAlbum[]) {
+    console.log(items)
+    this.allItems = items
+
+    this.router.navigate(['voice/cart'])
   }
 
-  getSearchedArtist() {
-    return this.savedArtist
+  getItems(): IAlbum[] {
+    return this.allItems
   }
 
-  openCart() {
-    this.alanBtnInstance.playText('Opening your shopping bag')
-    this.router.navigate(['cart'])
+  openUser(orders: IOrder[]) {
+    console.log(orders)
+    this.allOrders = orders
+
+    this.router.navigate(['voice/user'])
   }
 
-  openUser() {
-    this.alanBtnInstance.playText('Opening your account')
-    this.router.navigate(['user'])
-  }
-
-  addAlbum(payload: any) {
-    console.log(payload)
+  getOrders(): IOrder[] {
+    return this.allOrders
   }
 }

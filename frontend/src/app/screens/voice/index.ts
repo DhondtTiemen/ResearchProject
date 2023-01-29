@@ -16,14 +16,12 @@ export class VoiceHomePageComponent implements OnInit {
   ) {}
 
   loaded: boolean = false
+  initAlan: boolean = false
 
   popularAlbums: IAlbum[] = []
 
   ngOnInit(): void {
     this.popularAlbums = []
-
-    // INTRO
-    this.alanService.initAlan()
 
     // GET POPULAR ALBUMS
     this.configService.getPopularAlbums().subscribe({
