@@ -26,6 +26,11 @@ export class AlbumController {
     return this.albumService.findAlbumByPopular()
   }
 
+  @Get('preorder')
+  getAlbumPreOrder(): Promise<Album[]> {
+    return this.albumService.findAlbumByPreOrder()
+  }
+
   @Get('year/:year')
   getAlbumByYear(@Param('year') year: number): Promise<Album[]> {
     return this.albumService.findAlbumByYear(year)

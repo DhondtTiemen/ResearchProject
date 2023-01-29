@@ -4,6 +4,7 @@ import { ConfigService } from '../../services/config.service'
 
 import { IAlbum } from '../../interfaces/album'
 import { AlanService } from 'src/app/services/alan.service'
+import { IArtist } from 'src/app/interfaces/artist'
 
 @Component({
   selector: 'search-page',
@@ -26,7 +27,8 @@ export class SearchPageComponent implements OnInit {
     private readonly alanService: AlanService,
   ) {}
 
-  searchedByVoice: IAlbum[] = []
+  searchedByVoiceArtist: string = ''
+  searchedByVoiceAlbums: IAlbum[] = []
   filteredAlbums: IAlbum[] = []
   allAlbums: IAlbum[] = []
 
@@ -36,16 +38,21 @@ export class SearchPageComponent implements OnInit {
     searchInput = searchInput.toLocaleLowerCase()
     console.log(searchInput)
 
-    return this.allAlbums.filter((album: IAlbum) =>
-      album.title.toLocaleLowerCase().includes(searchInput),
+    return this.allAlbums.filter(
+      (album: IAlbum) =>
+        album.title.toLocaleLowerCase().includes(searchInput) ||
+        album.artist.artistName.toLocaleLowerCase().includes(searchInput),
     )
   }
 
   ngOnInit(): void {
-    this.searchedByVoice = this.alanService.getSearchedAlbums()
-    console.log(this.searchedByVoice)
+    this.searchedByVoiceArtist = this.alanService.getSearchedArtist()
+    // this.searchedByVoiceAlbums = this.alanService.getSearchedAlbums()
 
-    if (this.searchedByVoice.length == 0) {
+    if (this.searchedByVoiceArtist.length == 0) {
+      console.log('Nog geen zoeking gedaan...')
+
+      // Alle albums ophalen
       this.configService.getAlbums().subscribe({
         next: (allAlbums) => {
           this.allAlbums = allAlbums
@@ -53,6 +60,21 @@ export class SearchPageComponent implements OnInit {
         },
         error: (err) => (this.errorMessage = err),
       })
+    } else {
+      console.log('Er is gezocht op artist...')
+      console.log(this.searchedByVoiceArtist)
+      this.albumsFilter = this.searchedByVoiceArtist
+      // this.filteredAlbums = this.searchedByVoiceAlbums
+
+      // if (this.searchedByVoice.length == 0) {
+      //   this.configService.getAlbums().subscribe({
+      //     next: (allAlbums) => {
+      //       this.allAlbums = allAlbums
+      //       this.filteredAlbums = this.allAlbums
+      //     },
+      //     error: (err) => (this.errorMessage = err),
+      //   })
+      // }
     }
   }
 }

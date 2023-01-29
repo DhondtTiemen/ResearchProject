@@ -1,4 +1,5 @@
 import { IArtist } from './artist'
+import { IGenre } from './genre'
 import { IOrder } from './order'
 import { ITrack } from './track'
 
@@ -13,6 +14,7 @@ export interface IAlbum {
   stock: number
   popular: boolean
   artist: IArtist
+  genres: IGenre[]
   tracks: ITrack[]
   orders?: IOrder[]
 }
