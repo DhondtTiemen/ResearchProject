@@ -17,7 +17,13 @@ export class UserService {
   findUserById(userId: number): Promise<User> {
     return this.userRepository.findOne({
       where: { userId: userId },
-      relations: ['orders', 'favorites', 'favorites.artist'],
+      relations: [
+        'orders',
+        'orders.albums',
+        'orders.albums.artist',
+        'favorites',
+        'favorites.artist',
+      ],
     })
   }
 

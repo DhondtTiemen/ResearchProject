@@ -14,9 +14,22 @@ export class VoiceUserPageComponent implements OnInit {
   loaded: boolean = false
 
   orders: IOrder[] = []
+  completedOrders: IOrder[] = []
 
   ngOnInit(): void {
     this.orders = this.alanService.getOrders()
+
+    for (let order of this.orders) {
+      let totalPrice: number = 0
+
+      for (let album of order.albums) {
+        totalPrice += Number(album.price)
+      }
+
+      order.totalPrice = totalPrice
+      this.completedOrders.push(order)
+    }
+
     this.loaded = true
   }
 }
