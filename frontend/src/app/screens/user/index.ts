@@ -27,7 +27,6 @@ export class UserPageComponent implements OnInit {
           order.totalPrice = totalPrice
           this.completedOrders.push(order)
         }
-        console.log(this.completedOrders)
       },
       error: (err) => (this.errorMessage = err),
     })

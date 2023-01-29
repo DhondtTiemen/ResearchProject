@@ -10,19 +10,42 @@
 </div>
 
 <!-- LOADED -->
-<div *ngIf="loaded" class="flex h-screen items-center justify-center">
+<div *ngIf="loaded" class="flex h-screen justify-center overflow-y-auto">
   <main>
     <header class="px-4 py-6 text-center">
       <logo></logo>
     </header>
 
     <!-- ALL ORDERS -->
-    <div *ngIf="orders.length" class="container mx-auto">
-      <ul class="flex items-center justify-center overflow-x-auto">
-        <li *ngFor="let order of orders" class="w-96 shrink-0">
-          {{ order.orderId }}
-        </li>
-      </ul>
+    <div *ngIf="completedOrders.length" class="container mx-auto">
+      <div *ngFor="let order of completedOrders" class="mb-8">
+        <div
+          class="mb-2 flex items-center justify-between border-b-2 border-opacity-60"
+        >
+          <p class="text-xs opacity-60">
+            {{ order.orderDate.toString() | convertToLongDate }} | ordernummer:
+            {{ order.orderId }}
+          </p>
+          <p class="text-base font-bold opacity-60">€ {{ order.totalPrice }}</p>
+        </div>
+        <div *ngFor="let album of order.albums">
+          <div class="mb-2 flex items-center justify-between gap-4">
+            <div class="w-1/2">
+              <img
+                class="shadow-md"
+                [src]="album.image"
+                [alt]="album.title + ' cover'"
+                [title]="album.title + ' cover'"
+              />
+            </div>
+            <div class="w-full">
+              <p class="text-sm opacity-60">{{ album.artist.artistName }}</p>
+              <p class="font-medium">{{ album.title }}</p>
+              <p>€ {{ album.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </div>
