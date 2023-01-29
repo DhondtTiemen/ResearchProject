@@ -2,6 +2,7 @@ import { Controller, Body, Param, Get, Post, Put, Delete } from '@nestjs/common'
 
 import { Genre } from './entities/genre.entity'
 import { GenreService } from './genre.service'
+
 import { CreateGenreDto } from './dto/create-genre.dto'
 import { UpdateGenreDto } from './dto/update-genre.dto'
 

@@ -2,6 +2,7 @@ import { Controller, Body, Param, Get, Post, Put, Delete } from '@nestjs/common'
 
 import { Album } from './entities/album.entity'
 import { AlbumService } from './album.service'
+
 import { CreateAlbumDto } from './dto/create-album.dto'
 import { UpdateAlbumDto } from './dto/update-album.dto'
 
@@ -21,6 +22,11 @@ export class AlbumController {
     return this.albumService.findAlbumByAlbumTitle(albumTitle)
   }
 
+  @Get()
+  getAlbum(): Promise<Album[]> {
+    return this.albumService.findAlbums()
+  }
+
   @Get('popular')
   getAlbumPopular(): Promise<Album[]> {
     return this.albumService.findAlbumByPopular()
@@ -34,11 +40,6 @@ export class AlbumController {
   @Get('year/:year')
   getAlbumByYear(@Param('year') year: number): Promise<Album[]> {
     return this.albumService.findAlbumByYear(year)
-  }
-
-  @Get()
-  getAlbum(): Promise<Album[]> {
-    return this.albumService.findAlbums()
   }
 
   @Post()

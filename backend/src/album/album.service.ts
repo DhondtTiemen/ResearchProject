@@ -28,6 +28,7 @@ export class AlbumService {
 
   async findAlbumByAlbumTitle(inputAlbumTitle: string): Promise<Album[]> {
     const title = inputAlbumTitle.replace('-', ' ')
+
     const albums = await this.albumRepository
       .createQueryBuilder('album')
       .innerJoin('album.artist', 'artist')
@@ -42,6 +43,7 @@ export class AlbumService {
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
+        'artist.image',
       ])
       .where('album.title = :albumTitle', { albumTitle: title.toLowerCase() })
       .getMany()
@@ -59,10 +61,11 @@ export class AlbumService {
         'album.popular',
         'album.image',
         'album.price',
-        'artist.artistId',
+        'album.description',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
+        'artist.image',
       ])
       .where('year(album.releaseDate) = :year', { year: inputYear })
       .getMany()
@@ -80,10 +83,11 @@ export class AlbumService {
         'album.popular',
         'album.image',
         'album.price',
-        'artist.artistId',
+        'album.description',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
+        'artist.image',
       ])
       .where('album.popular = :boolean', { boolean: true })
       .getMany()
@@ -101,10 +105,11 @@ export class AlbumService {
         'album.popular',
         'album.image',
         'album.price',
-        'artist.artistId',
+        'album.description',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
+        'artist.image',
       ])
       .where('album.releaseDate >= :today', {
         today: new Date().toISOString().substring(0, 10),
@@ -125,9 +130,11 @@ export class AlbumService {
         'album.popular',
         'album.image',
         'album.price',
+        'album.description',
         'artist.artistName',
         'artist.firstName',
         'artist.lastName',
+        'artist.image',
       ])
       .getMany()
     return albums
@@ -142,19 +149,8 @@ export class AlbumService {
   }
 
   async updateAlbum(updateAlbumDto: UpdateAlbumDto): Promise<Album> {
-    // const update = new Album()
-    // update.albumId = updateAlbumDto.albumId
-    // update.title = updateAlbumDto.title
-    // update.price = updateAlbumDto.price
-
-    // const artistId = updateAlbumDto.artistId
-    // const artist = await this.artistRepository.findOneBy({ artistId })
-
-    // console.log(updateAlbumDto)
-
     const updateAlbum = this.albumRepository.create({
       ...updateAlbumDto,
-      // artist,
     })
     return this.albumRepository.save(updateAlbum)
   }
