@@ -17,22 +17,24 @@
     </header>
 
     <!-- ALL ALBUMS BY FILTER -->
-    <div
-      *ngIf="albums.length"
-      class="grid grid-cols-2 gap-2 px-6 pb-8 md:grid-cols-3 md:px-8 lg:grid-cols-4 lg:gap-4"
-    >
-      <div *ngFor="let album of albums">
-        <div class="relative">
+    <div *ngIf="albums.length" class="container mx-auto">
+      <ul class="flex items-center justify-center overflow-x-auto">
+        <li *ngFor="let album of albums" class="w-96 shrink-0">
           <img
-            class="mb-2 shadow-md"
-            src="{{ album.image }}"
-            alt="{{ album.title + 'cover' }}"
+            class="mx-auto mb-4 h-80 w-80 object-cover shadow-md"
+            [src]="album.image"
+            [alt]="album.title + ' cover'"
+            [title]="album.title + ' cover'"
           />
-        </div>
-        <!-- <p class="text-sm opacity-60">{{ album.artist.artistName }}</p> -->
-        <p>{{ album.title }}</p>
-        <p>{{ album.price }}</p>
-      </div>
+          <div class="mb-4 text-center">
+            <p class="text-xl font-medium opacity-80">{{ album.title }}</p>
+            <p class="text-base opacity-80">{{ album.artist.artistName }}</p>
+            <p class="mt-4 text-xl font-medium opacity-80">
+              € {{ album.price }}
+            </p>
+          </div>
+        </li>
+      </ul>
     </div>
   </main>
 </div>

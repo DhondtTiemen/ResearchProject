@@ -1,0 +1,72 @@
+<!-- LOADING -->
+<div *ngIf="!loaded" class="flex h-screen w-screen items-center justify-center">
+  <div class="text-center">
+    <logo></logo>
+    <lucide-icon
+      name="loader-2"
+      class="text-alpha mt-6 h-9 w-9 animate-spin"
+    ></lucide-icon>
+  </div>
+</div>
+
+<!-- LOADED -->
+<div *ngIf="loaded" class="flex h-screen items-center justify-center">
+  <main>
+    <header class="px-4 py-6 text-center">
+      <logo></logo>
+    </header>
+
+    <!-- ALL ALBUMS BY FILTER -->
+    <div *ngIf="albumChosen" class="container mx-auto">
+      <div *ngFor="let album of albumChosen">
+        <div class="flex h-96 shrink-0 items-center justify-center gap-8">
+          <img
+            class="mx-auto mb-4 h-80 w-80 object-cover shadow-md"
+            [src]="album.image"
+            [alt]="album.title + ' cover'"
+            [title]="album.title + ' cover'"
+          />
+          <div class="w-full max-w-xs">
+            <p class="text-xl font-medium opacity-80">{{ album.title }}</p>
+            <p class="text-base opacity-80">{{ album.artist.artistName }}</p>
+            <p class="mt-4 mb-2 text-xl font-medium opacity-80">
+              € {{ album.price }}
+            </p>
+            <p
+              *ngIf="album.stock >= 5"
+              class="mb-4 flex items-center justify-start gap-2 text-base opacity-60"
+            >
+              <span
+                class="inline-block h-3 w-3 rounded-full bg-green-700"
+              ></span>
+              In stock: {{ album.stock }}
+            </p>
+            <p
+              *ngIf="album.stock > 0 && 5 > album.stock"
+              class="mb-4 flex items-center justify-start gap-2 text-base opacity-60"
+            >
+              <span
+                class="inline-block h-3 w-3 rounded-full bg-orange-400"
+              ></span>
+              In stock: {{ album.stock }}
+            </p>
+            <p
+              *ngIf="0 >= album.stock"
+              class="mb-4 flex items-center justify-start gap-2 text-base opacity-60"
+            >
+              <span
+                class="bg-red-70000 inline-block h-3 w-3 rounded-full bg-red-700"
+              ></span>
+              Out of stock
+            </p>
+          </div>
+        </div>
+        <p class="mb-6 max-w-lg opacity-60">{{ album.description }}</p>
+        <h2 class="mb-4 text-xl font-medium">Tracklist</h2>
+        <p *ngFor="let track of album.tracks" class="mt-2 opacity-60">
+          {{ track.trackNumber }}. {{ track.title }}
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

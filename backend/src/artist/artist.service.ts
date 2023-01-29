@@ -17,7 +17,7 @@ export class ArtistService {
   findArtistById(artistId: number): Promise<Artist> {
     return this.artistRepository.findOne({
       where: { artistId: artistId },
-      relations: ['albums'],
+      relations: ['albums', 'albums.artist'],
     })
   }
 
@@ -25,7 +25,7 @@ export class ArtistService {
     const artist = artistName.replace('-', ' ')
     return this.artistRepository.findOne({
       where: { artistName: artist.toLowerCase() },
-      relations: ['albums'],
+      relations: ['albums', 'albums.artist'],
     })
   }
 

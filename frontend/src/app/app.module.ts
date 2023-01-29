@@ -40,12 +40,11 @@ import { AlbumsCart } from './components/album/albums-cart.component'
 import { OrdersCompleted } from './components/order/orders-list.component'
 import { VoiceHomePageComponent } from './screens/voice'
 import { VoiceAppHolder } from './components/holders/voice-app-holder.component'
-import { VoiceSearchGenreComponent } from './components/voice/voice-search-genre.component'
-import { VoiceChosenAlbumComponent } from './components/voice/chosen-album.component'
 import { VoiceGenrePageComponent } from './screens/voice/genre'
 import { VoiceFilterPageComponent } from './screens/voice/filter'
 import { VoiceArtistPageComponent } from './screens/voice/artist'
-import { VoiceAlbumsTitlePageComponent } from './screens/voice/album'
+import { VoiceAlbumsTitlePageComponent } from './screens/voice/title'
+import { VoiceChosenAlbumPageComponent } from './screens/voice/album/_id'
 
 @NgModule({
   declarations: [
@@ -87,8 +86,7 @@ import { VoiceAlbumsTitlePageComponent } from './screens/voice/album'
 
     VoiceFilterPageComponent,
 
-    VoiceSearchGenreComponent,
-    VoiceChosenAlbumComponent,
+    VoiceChosenAlbumPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,16 +114,13 @@ import { VoiceAlbumsTitlePageComponent } from './screens/voice/album'
       // SEARCH BY FILTER
       { path: 'voice/artists', component: VoiceArtistPageComponent },
       { path: 'voice/genres', component: VoiceGenrePageComponent },
-      { path: 'voice/albums', component: VoiceAlbumsTitlePageComponent },
+      { path: 'voice/titles', component: VoiceAlbumsTitlePageComponent },
 
       // RESULT BY FILTER
       { path: 'voice/filter', component: VoiceFilterPageComponent },
 
       // CHOSEN ALBUM
-      { path: 'voice/album', component: VoiceChosenAlbumComponent },
-
-      // { path: 'voice/artist', component: VoiceSearchArtistComponent },
-      // { path: 'voice/genre', component: VoiceSearchGenreComponent },
+      { path: 'voice/album', component: VoiceChosenAlbumPageComponent },
 
       { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]),

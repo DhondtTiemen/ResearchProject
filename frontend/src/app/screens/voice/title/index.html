@@ -16,23 +16,19 @@
       <logo></logo>
     </header>
 
-    <!-- POPULAR ARTISTS -->
-    <div *ngIf="artists.length" class="container mx-auto">
+    <!-- POPULAR ALBUMS -->
+    <div *ngIf="albums.length" class="container mx-auto">
       <ul class="flex items-center justify-center overflow-x-auto">
-        <li *ngFor="let artist of artists" class="w-96 shrink-0">
+        <li *ngFor="let album of albums" class="w-96 shrink-0">
           <img
             class="mx-auto mb-4 h-80 w-80 object-cover shadow-md"
-            [src]="artist.image"
-            [alt]="'Picture of ' + artist.artistName"
-            [title]="'Picture of ' + artist.artistName"
+            [src]="album.image"
+            [alt]="album.title + ' cover'"
+            [title]="album.title + ' cover'"
           />
           <div class="mb-4 text-center">
-            <p class="text-xl font-medium opacity-80">
-              {{ artist.artistName }}
-            </p>
-            <p class="text-base opacity-80">
-              {{ artist.albums.length }} albums
-            </p>
+            <p class="text-xl font-medium opacity-80">{{ album.title }}</p>
+            <p class="text-base opacity-80">{{ album.artist.artistName }}</p>
           </div>
         </li>
       </ul>
