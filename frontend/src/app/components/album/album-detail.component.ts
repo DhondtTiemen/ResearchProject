@@ -9,7 +9,7 @@ import { ConfigService } from 'src/app/services/config.service'
   selector: 'album-detail',
   templateUrl: './album-detail.component.html',
 })
-export class AlbumDetailComponent {
+export class AlbumDetailPageComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,

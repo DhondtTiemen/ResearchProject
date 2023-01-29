@@ -25,7 +25,7 @@ export class Artist {
   @Column({ type: 'mediumtext', name: 'image', nullable: true })
   image: string
 
-  @Column('boolean', { name: 'popular', nullable: true })
+  @Column({ type: 'boolean', name: 'popular', nullable: true })
   popular: boolean
 
   @OneToMany(() => Album, (album: Album) => album.artist)

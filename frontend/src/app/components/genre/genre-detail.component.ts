@@ -7,7 +7,7 @@ import { ConfigService } from 'src/app/services/config.service'
   selector: 'genre-detail',
   templateUrl: './genre-detail.component.html',
 })
-export class GenreDetailComponent implements OnInit {
+export class GenreDetailPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
