@@ -1,0 +1,524 @@
+// Info
+intent('What does this app do?', 'What can I do (here|)?', 
+       reply('This is a voice interface webshop! Where you can buy vinyl albums. Just say "I want to search an album"'))
+
+// Intro
+intent('(Hi|hello|hallo) (There|daar|)!', p => {
+    p.play('What do you want to do?')
+})
+
+// User don't know
+intent('(I don"t know) (what to do|)', (p) => {
+    p.play('Do you want to search an album?')
+    p.then(stupidUser)
+})
+
+// Want to search 'Yes or No'?
+const stupidUser = context(() => {
+    intent('yes', async (p) => {
+       p.play('Do you want to search by the artist, the genre or the title?')
+       p.then(purpose)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Are you sure about that? I can"t help you then...')
+    })
+})
+
+// Flow Home
+intent('(I want to|) (get info about|) (info|) (buy|order|search|about) (an|) (album)', (p) => {
+    p.play('Do you want to search by the artist, the genre or the title?')
+    p.then(purpose)
+})
+
+let allFavorites = []
+let allItems = []
+let allOrders = []
+
+let allArtists = []
+let allGenres = []
+let allAlbumTitles = []
+
+let allAlbumsByFilter = []
+
+let notCompletedOrder = []
+
+const purpose = context(() => {    
+    intent('artist(s|)', async (p) => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/artist/popular`
+        
+        api.request(API_URL, (error, response, body) => {
+            const artists = JSON.parse(body)
+            console.log(artists)
+            console.log(error)
+            
+            allArtists = artists
+            
+            p.play({ command: 'show-artists', allArtists })
+            
+            p.play('Here are some of the popular artists, do you want me to read them?')
+            p.then(readingArtistsConfirmation)
+        })
+    })
+    
+    intent('genre(s|)', async (p) => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/genre`
+            
+        api.request(API_URL, (error, response, body) => {  
+            const genres = JSON.parse(body)
+            console.log(genres)
+            console.log(error)
+            
+        allGenres = genres
+            
+        p.play({ command: 'show-genres', allGenres })
+                    
+        p.play('Here are all the genres, do you want me to read it?')
+        p.then(readingGenresConfirmation)
+        })
+    })
+    
+    intent('title(s|)', async(p) => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/album/popular`
+        
+        api.request(API_URL, (error, response, body) => {
+            const albums = JSON.parse(body)
+            console.log(albums)
+            console.log(error)
+            
+            allAlbumTitles = albums
+            
+            p.play({ command: 'show-albumTitles', allAlbumTitles })
+            
+            p.play('Here are some of the popular albums, do you want me to read them?')
+            p.then(readingAlbumTitlesConfirmation)
+        })
+    })
+})
+
+// Reading Artists 'Yes or No'?
+const readingArtistsConfirmation = context(() => {
+    intent('yes', async (p) => {
+        console.log(`${allArtists.length}`)
+        
+        for (let i = 0; i < allArtists.length; i++) {
+            p.play({ command: 'highlight-artist', artist: allArtists[i] })
+            p.play(`${allArtists[i].artistName}`)
+        }
+        
+        p.play('What artist do you want?')
+        p.then(artist)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Alright, what artist do you want?')
+        p.then(artist)
+    })
+})
+
+// Reading Genres 'Yes or No'?
+const readingGenresConfirmation = context(() => {
+    intent('yes', async (p) => {
+        console.log(`${allGenres.length}`)
+        
+        for (let i = 0; i < allGenres.length; i++) {
+            p.play({ command: 'highlight-genre', genre: allGenres[i] })
+            p.play(`${allGenres[i].name}`)
+        }
+        
+        p.play('What genre do you want?')
+        p.then(genre)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Alright, What genre do you want?')
+        p.then(genre)
+    })
+})
+
+// Reading Album Titles 'Yes or No'?
+const readingAlbumTitlesConfirmation = context(() => {
+    intent('yes', async (p) => {
+        console.log(`${allAlbumTitles.length}`)
+        
+        for (let i = 0; i < allAlbumTitles.length; i++) {
+            p.play({ command: 'highlight-albumTitle', album: allAlbumTitles[i] })
+            p.play(`${allAlbumTitles[i].title}`)
+        }
+        
+        p.play('What album do you want?')
+        p.then(chosenAlbumContext)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Alright, What album do you want?')
+        p.then(chosenAlbumContext)
+    })
+})
+
+// Search by Artist name
+const artist = context(() => {
+    intent("$(artist* (.*))", p => {     
+        console.log(p.artist.value)
+        
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/artist/artistName/${p.artist.value}`
+        
+        api.request(API_URL, (error, response, body) => {
+            const albumsByArtist = JSON.parse(body)
+            console.log(albumsByArtist)
+            console.log(error)
+
+        
+        if (!albumsByArtist.albums.length) {
+            p.play('Sorry, please try searching for an other artist')
+            return
+        }
+        
+        allAlbumsByFilter = albumsByArtist.albums
+        
+        p.play({ command: 'show-albums-by-filter', allAlbumsByFilter })
+            
+        p.play(`Here are all the albums from the artist ${p.artist.value}, do you want me to read them?`)
+        p.then(readingAlbumsConfirmation)
+        })
+    })
+})
+
+// Search by Genre
+const genre = context(() => {
+    follow("$(genre* (.*))", p => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/genre/genreName/${p.genre.value}`
+            
+        api.request(API_URL, (error, response, body) => {  
+            const albumsByGenre = JSON.parse(body)
+            console.log(albumsByGenre)
+            console.log(error)
+            
+        if (!albumsByGenre.albums.length) {
+            p.play('Sorry, please try searching for an other genre')
+            return
+        }
+            
+        allAlbumsByFilter = albumsByGenre.albums
+            
+        p.play({ command: 'show-albums-by-filter', allAlbumsByFilter })
+     
+        p.play(`Here are all the albums from the genre ${p.genre.value}, do you want me to read it?`)
+        p.then(readingAlbumsConfirmation)
+        })
+    })
+})
+
+
+// Search by Album title
+const albumTitle = context(() => {
+    follow("$(albumTitle* (.*))", p => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/album/albumTitle/${p.albumTitle.value}`
+        
+        api.request(API_URL, (error, response, body) => {
+            const albumsByTitle = JSON.parse(body)
+            console.log(albumsByTitle)
+            console.log(error)
+        
+        if (!albumsByTitle.length) {
+            p.play('Sorry, please try searching for an other album')
+            return
+        }
+            
+        allAlbumsByFilter = albumsByTitle
+            
+        p.play({ command: 'show-albums-by-filter', allAlbumsByFilter })
+        
+        p.play(`Here is are the albums with the title ${p.albumTitle.value} do you want me to read the artists?`)
+        p.then(readingAlbumsConfirmation)
+        })
+    })
+})
+
+// Reading all albums 'Yes or No'?
+const readingAlbumsConfirmation = context(() => {
+    intent('yes', async (p) => {
+        console.log(`${allAlbumsByFilter.length}`)
+        
+        for (let i = 0; i < allAlbumsByFilter.length; i++) {
+            p.play({ command: 'highlight-album', genre: allAlbumsByFilter[i]})
+            p.play(`${allAlbumsByFilter[i].title}`)
+        }
+        
+        p.play('What album do you want?')
+        p.then(chosenAlbumContext)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Wat album do you want to see?')
+        p.then(chosenAlbumContext)
+    })
+})
+
+// Searching for searched Album in database
+let searchedAlbum = []
+
+const chosenAlbumContext = context(() => {
+    intent("$(chosenAlbum* (.*))", p => {
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        p.play(`Getting ${p.chosenAlbum.value}`)
+
+        if(p.chosenAlbum.value) {
+            const chosenAlbumTitle = p.chosenAlbum.value.toLowerCase()
+            API_URL = `${API_URL}/album/albumTitle/${chosenAlbumTitle}`
+        }
+        
+        api.request(API_URL, (error, response, body) => {  
+            const album = JSON.parse(body)
+            console.log(album)
+            console.log(error)
+
+        if (!album.length) {
+            p.play('Sorry, please try searching for an other title')
+            return
+        }
+            
+        searchedAlbum = album
+
+        p.play({ command: 'show-chosen-album', album })
+            
+        p.play('Do i need to give you some information about this album?')
+        p.then(descriptionConfirmation)
+        })
+    })
+})
+
+// Reading description 'Yes or No'?
+const descriptionConfirmation = context(() => {
+    intent('yes', async (p) => {
+        p.play(`${searchedAlbum[0].description}`)
+        
+        p.play('Do you want to order this album?')
+        p.then(orderConfirmation)
+    })
+    
+    intent('no', async (p) => {
+        p.play('No problem, do you want to order this album?')
+        p.then(orderConfirmation)
+    })
+})
+
+// Order this Album 'Yes or No'?
+const orderConfirmation = context(() => { 
+    intent('yes', async (p) => {
+        let orderedAlbum = searchedAlbum[0]
+        p.play(`Adding album ${orderedAlbum.title} to your shopping bag!`)
+        p.play({ command: 'add-to-cart', orderedAlbum })
+        
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/user/notCompleted/1`
+
+        api.request(API_URL, (error, response, body) => {
+            const user = JSON.parse(body)
+            console.log(user)
+            console.log(error)
+
+            allItems = user.orders[0].albums
+        })
+        
+        p.play('Do you want to view your shopping bag?')
+        p.then(showCart)
+    })
+    
+    intent('no', async (p) => {
+        p.play('No problem, do you want to search for something else?')
+        p.then(searchOtherAlbumConfirmation)
+    })
+})
+
+const showCart = context(() => {
+    intent('yes', async(p) => {
+        p.play({ command: 'open-cart', allItems })
+        
+        p.play('Here are all your items, do you want me to read them?')
+        p.then(readingShoppingBagConfirmation)
+    })
+           
+    intent('no', async(p) => {
+        p.play('Do you want to order an other album?')
+        p.then(searchOtherAlbumConfirmation)
+    })
+})
+
+const checkOutConfirmation = context(() => {
+    intent('yes', async (p) => {
+        p.play('Alright we checking out')
+        
+        let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+        API_URL = `${API_URL}/user/notCompleted/1`
+
+        api.request(API_URL, (error, response, body) => {
+            const user = JSON.parse(body)
+            console.log(user)
+            console.log(error)
+
+            notCompletedOrder = user.orders[0]
+            
+            console.log(notCompletedOrder)
+            p.play({ command: 'check-out', notCompletedOrder })
+        })
+        
+        p.play('Payment succeeded')        
+        p.play({ command: 'open-home'})
+    })
+    
+    intent('no', async (p) => {
+        p.play('Do you want to search a different album then?')
+        p.then(searchOtherAlbumConfirmation)
+    })
+})
+
+const searchOtherAlbumConfirmation = context(() => {
+    intent('yes', async (p) => {
+        p.play({ command: 'open-home' })
+        
+        p.play('Do you want to search by genre, title or artist?')
+        p.then(purpose)
+    })
+    
+    intent('no', async (p) => {
+        p.play('Ok, I can"t help you then...')
+        p.play({ command: 'open-home' })
+    })
+})
+
+//Navigation
+intent('(go back to|open) (start|home) (page|)', p => {
+    p.play({ command: 'open-home' })
+})
+
+intent('(show|open|view) (my|) (favorites)', p => {
+    let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+    API_URL = `${API_URL}/user/userId/1`
+
+    api.request(API_URL, (error, response, body) => {
+        const user = JSON.parse(body)
+        console.log(user)
+        console.log(error)
+        
+        allFavorites = user.favorites
+
+        p.play({ command: 'open-favorites', allFavorites })
+
+        p.play('Here are all your favorites, do you want me to read them?')
+        p.then(readingFavoritesConfirmation)
+    })
+})
+
+const readingFavoritesConfirmation = context(() => {
+    intent('yes', p => {
+        console.log(`${allFavorites.length}`)
+        
+        for (let i = 0; i < allFavorites.length; i++) {
+            p.play({ command: 'highlight-album', genre: allFavorites[i]})
+            p.play(`${allFavorites[i].title}`)
+        }
+        
+        p.play('Do you want an album?')
+        p.then(wantAlbum)
+    })
+    
+    intent('no', p => {
+        p.play('Do you want an album?')
+        p.then(wantAlbum)
+    })
+})
+
+const wantAlbum = context(() => {
+    intent('yes', async p => {
+        p.play('What album do you want?')
+        p.then(chosenAlbumContext)
+    })
+    
+    intent('no', async p => {
+        p.play('Do you want to search an other album?')
+        p.then(searchOtherAlbumConfirmation)
+    })
+})
+
+intent('(show|open|view) (my|) (shopping bag|cart)', p => {
+    let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+    API_URL = `${API_URL}/user/notCompleted/1`
+
+    api.request(API_URL, (error, response, body) => {
+        const user = JSON.parse(body)
+        console.log(user)
+        console.log(error)
+        
+        if (!user.orders.length) {
+            p.play('Your shopping bag is empty... do you want to order an album?')
+            p.then(searchOtherAlbumConfirmation)
+        }
+        
+        allItems = user.orders[0].albums
+
+        p.play({ command: 'open-cart', allItems })
+
+        p.play('Here are all your items, do you want me to read them?')
+        p.then(readingShoppingBagConfirmation)
+    })
+})
+
+const readingShoppingBagConfirmation = context(() => {
+    intent('yes', p => {
+        console.log(`${allItems.length}`)
+        
+        for (let i = 0; i < allItems.length; i++) {
+            p.play({ command: 'highlight-album', genre: allItems[i]})
+            p.play(`${allItems[i].title}`)
+        }
+        
+        p.play('Do you want to order these?')
+        p.then(checkOutConfirmation)
+    })
+    
+    intent('no', p => {
+        p.play('Do you want to order these?')
+        p.then(checkOutConfirmation)
+    })
+})
+
+intent('(show|open|view) (my|) (account|user|orders)', p => {
+    let API_URL = `https://researchproject-container.wittyflower-1d8bf0a3.northeurope.azurecontainerapps.io`
+    API_URL = `${API_URL}/user/completed/1`
+
+    api.request(API_URL, (error, response, body) => {
+        const user = JSON.parse(body)
+        console.log(user)
+        console.log(error)
+        
+        allOrders = user.orders
+
+         p.play({ command: 'open-user', allOrders })
+        
+        p.play('Here are all your orders, do you want me to read them?')
+       p.then(readingOrdersConfirmation)
+    })
+})
+
+const readingOrdersConfirmation = context(() => {
+    intent('yes', p => {
+         console.log(`${allOrders.length}`)
+        
+        for (let i = 0; i < allOrders.length; i++) {
+            p.play({ command: 'highlight-order', genre: allOrders[i]})
+            p.play(`${allOrders[i].orderId}`)
+        }
+    })
+    
+    intent('no', p => {
+        p.play('Alright then, do you want to search an album?')
+        p.then(searchOtherAlbumConfirmation)
+    })
+})
