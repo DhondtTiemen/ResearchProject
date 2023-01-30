@@ -179,8 +179,6 @@ export class AlanService implements OnInit {
   }
 
   checkOut(order: IOrder): void {
-    console.log(order)
-
     this.configService.completeOrder(order.orderId).subscribe({
       next: (data) => {
         console.log(data)
